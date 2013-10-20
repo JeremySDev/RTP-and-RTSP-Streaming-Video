@@ -1,3 +1,8 @@
+package edu.wcu.RTPandRTSPStreamingVideo;
+
+import edu.wcu.RTPandRTSPStreamingVideo.RTPpacket;
+import edu.wcu.RTPandRTSPStreamingVideo.Stream;
+
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -299,7 +304,7 @@ public class Client extends Stream {
             try{
                 getRtpSocket().receive(receivePacket);
                 //create an RTPpacket object from the Datagram packet.
-                RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(), 
+                RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
                                                     receivePacket.getLength());
 
                 // Get the payload bitstream from the RTPpacket object
