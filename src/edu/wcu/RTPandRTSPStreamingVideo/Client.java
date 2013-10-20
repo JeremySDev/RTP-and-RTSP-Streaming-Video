@@ -1,7 +1,5 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-import edu.wcu.RTPandRTSPStreamingVideo.RTPpacket;
-import edu.wcu.RTPandRTSPStreamingVideo.Stream;
 
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;

@@ -1,6 +1,6 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-import edu.wcu.RTPandRTSPStreamingVideo.Stream;
+import java.net.DatagramPacket;
 
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
@@ -42,7 +42,7 @@ public class Server extends Stream {
 
     // Packet:
     /** UDP packet containing the video frames  */
-    private DatagramPacket  senddp; 
+    private DatagramPacket senddp;
     /** Client IP address                       */
     private InetAddress     ClientIPAddr; 
     /** Destination port for RTP packets        */
@@ -75,7 +75,7 @@ public class Server extends Stream {
     /** 
      * Constructor that creates a server that listens an RTSP client.
      * @param portNum the listening port number.
-     * @throws NumberformatException thrown if port number is incorrectly
+     * @throws NumberFormatException thrown if port number is incorrectly
      * formatted.
      * @throws IOException thrown if an error occurs creating the socket.
      */
@@ -146,8 +146,8 @@ public class Server extends Stream {
     }
           
     /**
-     *  Entry point into the program. Whee
-     * @param args[0] the port number for this server.
+     * Entry point into the program. Whee
+     * @param args the port number for this server.
      */
     public static void main(String args[]) {
 
