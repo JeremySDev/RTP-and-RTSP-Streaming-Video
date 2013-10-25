@@ -2,7 +2,8 @@ package edu.wcu.RTPandRTSPStreamingVideo;
 
 import java.io.IOException;
 
-public interface VideoInterface {
+public interface VideoInterface
+{
 
     /**
      * Size of the header field before each frame of video in an MJPEG file

@@ -35,10 +35,12 @@ import javax.swing.JFrame;
  * @author William Kreahling, based on Kurose/Ross
  * @version October 11, 2013
  */
-public class Server extends Stream {
+public class Server extends Stream
+{
 
     // Enumeration for readability
-    private enum Message {
+    private enum Message
+    {
         SETUP, PLAY, PAUSE, TEARDOWN, INVALID
     }
 
@@ -143,7 +145,8 @@ public class Server extends Stream {
         initTimer(FRAME_PERIOD, new TimerListener());
 
         // Handler to close the main window
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter()
+        {
             public void windowClosing(WindowEvent e)
             {
                 // Stop the timer and exit
@@ -188,15 +191,18 @@ public class Server extends Stream {
     public static void main(String args[])
     {
 
-        if (args.length != 1) {
+        if (args.length != 1)
+        {
             Server.printUsageAndExit();
         }
 
         Server server = null;
-        try {
+        try
+        {
             server = new Server(args[0]);
         }
-        catch (IOException | NumberFormatException ex) {
+        catch (IOException | NumberFormatException ex)
+        {
             System.out.println("Error creating the server: " + ex.getMessage());
             System.exit(2);
         }
@@ -204,20 +210,24 @@ public class Server extends Stream {
         // Wait for the SETUP message from the client, good server!
         Message requestType = Message.PLAY;
         boolean done = false;
-        while (! done) {
+        while (!done)
+        {
             requestType = server.parseRtspRequest(); // blocking call
 
-            if (requestType == Message.SETUP) {
+            if (requestType == Message.SETUP)
+            {
                 done = true;
                 server.setReadyState();
 
                 // Create VideoStream
-                try {
+                try
+                {
                     server.sendRtspResponse();
                     server.setVideo();
                     server.setRtpSocket(new DatagramSocket());
                 }
-                catch (IOException ioe) {
+                catch (IOException ioe)
+                {
                     System.out.println("Error communicating with the client: " +
                             ioe.getMessage());
                     System.exit(3);
@@ -227,35 +237,42 @@ public class Server extends Stream {
         }
 
         // Loop to handle RTSP requests
-        try {
-            while (requestType != Message.TEARDOWN) {
+        try
+        {
+            while (requestType != Message.TEARDOWN)
+            {
                 requestType = server.parseRtspRequest(); //blocking
 
-                if (requestType == Message.PLAY && server.isReadyState()) {
+                if (requestType == Message.PLAY && server.isReadyState())
+                {
                     server.sendRtspResponse();
                     server.startTimer();
                     server.setPlayState();
                 }
                 else if (requestType == Message.PAUSE &&
-                        server.isPlayState()) {
+                        server.isPlayState())
+                {
                     server.sendRtspResponse();
                     server.stopTimer();
                     server.setReadyState();
                 }
             }
         }
-        catch (IOException ioe) {
+        catch (IOException ioe)
+        {
             System.out.println("IOException caught: " + ioe.getMessage());
             System.exit(1);
 
         }
-        try {
+        try
+        {
             server.sendRtspResponse();
             server.stopTimer();
             server.getRtspSocket().close();
             server.getRtpSocket().close();
         }
-        catch (IOException ioe) {
+        catch (IOException ioe)
+        {
             // Ignore this because the sockets are in the process of being
             // closed down anyway.
         }
@@ -265,16 +282,19 @@ public class Server extends Stream {
     /**
      * Handler for the timer. Tick tock.
      */
-    class TimerListener implements ActionListener {
+    class TimerListener implements ActionListener
+    {
         public void actionPerformed(ActionEvent e)
         {
 
             int imageLength = 1;
             // if the current image number is less than the length of the video
-            if (imageNum < VIDEO_LENGTH && imageLength > 0) {
+            if (imageNum < VIDEO_LENGTH && imageLength > 0)
+            {
                 imageNum++;
 
-                try {
+                try
+                {
                     /*
                      * Get the next frame to send from the video, as well as its
                      * size
@@ -282,7 +302,8 @@ public class Server extends Stream {
                     imageLength = video.getNextFrame(getBuffer());
 
                     // Build an RTPpacket object containing the frame
-                    if (imageLength > 0) {
+                    if (imageLength > 0)
+                    {
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
                                 imageNum,
                                 (imageNum *
@@ -310,13 +331,15 @@ public class Server extends Stream {
                         label.setText("Send frame #" + imageNum);
                     }
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     System.out.println("EXCEPTION caught: " + ex);
                     ex.printStackTrace();
                     System.exit(0);
                 }
             }
-            else {
+            else
+            {
                 // If we have reached the end of the video file, stop the timer
                 stopTimer();
             }
@@ -333,7 +356,8 @@ public class Server extends Stream {
     {
         Message result = Message.INVALID;
 
-        switch (word) { // Requires Java 7
+        switch (word)
+        { // Requires Java 7
             case "SETUP":
                 result = Message.SETUP;
                 break;
@@ -358,7 +382,8 @@ public class Server extends Stream {
     {
         // When in doubt kill all the sockets!
         Message requestType = Message.TEARDOWN;
-        try {
+        try
+        {
             // Parse request line and extract the requestType:
             String RequestLine = scanIn.nextLine();
 
@@ -366,7 +391,8 @@ public class Server extends Stream {
             requestType = string2Message(tokens.nextToken());
 
 
-            if (requestType == Message.SETUP) {
+            if (requestType == Message.SETUP)
+            {
                 //extract VideoFileName from RequestLine
                 setVideoFileName(tokens.nextToken());
             }
@@ -380,21 +406,24 @@ public class Server extends Stream {
             // Get LastLine
             String LastLine = scanIn.nextLine();
 
-            if (requestType == Message.SETUP) {
+            if (requestType == Message.SETUP)
+            {
                 // Extract rtpDestPort from LastLine
                 tokens = new StringTokenizer(LastLine);
 
                 /**
                  * Format is : "Transport: RTP/UDP; Client_port= portNum"
                  */
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++)
+                {
                     tokens.nextToken(); //skip unused stuff
                 }
                 rtpDestPort = Integer.parseInt(tokens.nextToken());
             }
             // else LastLine will be the SessionId line, do not check for now.
         }
-        catch (NoSuchElementException | IllegalStateException ex) {
+        catch (NoSuchElementException | IllegalStateException ex)
+        {
             // If this happens we are borked, so quiting now, instead of
             // sending to main!
             System.out.println("Error Parsing RTSP request: " +

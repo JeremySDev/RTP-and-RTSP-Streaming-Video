@@ -39,7 +39,8 @@ import javax.swing.Timer;
  * @author William Kreahling, based on code from Kurose/Ross
  * @version October 11, 2013
  */
-public class Client extends Stream {
+public class Client extends Stream
+{
 
     // GUI
     /**
@@ -135,10 +136,12 @@ public class Client extends Stream {
     {
         createUI();
         int value = RTP_PORT;
-        try {
+        try
+        {
             value = Integer.parseInt(args[1]);
         }
-        catch (NumberFormatException nfe) {
+        catch (NumberFormatException nfe)
+        {
             System.out.println("RTP port argument invalid " + nfe.getMessage());
             System.out.println("RTP port defaulting to " + value);
         }
@@ -148,17 +151,21 @@ public class Client extends Stream {
         // Get server hostname
         String serverHost = args[0];
         // Get video filename to request:
-        if (args.length == 4) {
+        if (args.length == 4)
+        {
             setVideoFileName(args[3]);
         }
-        else {
+        else
+        {
             setVideoFileName(args[2]);
         }
 
-        try {
+        try
+        {
             rtspServerPort = Integer.parseInt(args[2]);
         }
-        catch (NumberFormatException nfe) {
+        catch (NumberFormatException nfe)
+        {
             System.out.println("RTSP port argument invalid " +
                     nfe.getMessage());
             System.out.println("RTSP Port defaulting to " + RTSP_PORT);
@@ -191,7 +198,8 @@ public class Client extends Stream {
         buttonPanel = new JPanel();
         iconLabel = new JLabel();
         // Create a new Frame
-        frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter()
+        {
             public void windowClosing(WindowEvent e)
             {
                 System.exit(0);
@@ -259,19 +267,23 @@ public class Client extends Stream {
     {
 
         // Check for number of args.
-        if (args.length < 3 || args.length > 4) {
+        if (args.length < 3 || args.length > 4)
+        {
             Client.printUsageAndExit();
         }
 
         Client client = null;
-        try {
+        try
+        {
             client = new Client(args);
         }
-        catch (UnknownHostException uhe) {
+        catch (UnknownHostException uhe)
+        {
             System.out.println(uhe.getMessage());
             System.exit(2);
         }
-        catch (IOException ioe) {
+        catch (IOException ioe)
+        {
             System.out.println(ioe.getMessage());
             System.exit(3);
         }
@@ -284,7 +296,8 @@ public class Client extends Stream {
     /**
      * Handler for the 'setup' button.
      */
-    class setupButtonListener implements ActionListener {
+    class setupButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
          *
@@ -299,7 +312,8 @@ public class Client extends Stream {
     /**
      * Handler for Play Button
      */
-    class playButtonListener implements ActionListener {
+    class playButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
          *
@@ -314,7 +328,8 @@ public class Client extends Stream {
     /**
      * Handler for Pause Button
      */
-    class pauseButtonListener implements ActionListener {
+    class pauseButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
          *
@@ -331,7 +346,8 @@ public class Client extends Stream {
     /**
      * Handler for Teardown Button
      */
-    class tearButtonListener implements ActionListener {
+    class tearButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
          *
@@ -349,7 +365,8 @@ public class Client extends Stream {
     /**
      * Handler for the Timer. Gets RTP packets and displays them in the UI.
      */
-    class timerListener implements ActionListener {
+    class timerListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
          *
@@ -360,7 +377,8 @@ public class Client extends Stream {
 
             //Construct a DatagramPacket to receive data from the UDP socket
             receivePacket = getDgPacket();
-            try {
+            try
+            {
                 getRtpSocket().receive(receivePacket);
                 //create an RTPpacket object from the Datagram packet.
                 RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
@@ -380,10 +398,12 @@ public class Client extends Stream {
                 icon = new ImageIcon(image);
                 iconLabel.setIcon(icon);
             }
-            catch (InterruptedIOException iioe) {
+            catch (InterruptedIOException iioe)
+            {
                 //System.out.println("Nothing to read");
             }
-            catch (IOException ioe) {
+            catch (IOException ioe)
+            {
                 System.out.println("IOException caught: " + ioe
                         .getMessage());
             }
@@ -397,7 +417,8 @@ public class Client extends Stream {
     {
         int reply_code = 0;
 
-        try {
+        try
+        {
             // Parse status line and extract the reply_code:
             String StatusLine = scanIn.nextLine();
 
@@ -406,7 +427,8 @@ public class Client extends Stream {
             reply_code = Integer.parseInt(tokens.nextToken());
 
             // If reply code is OK get and print the 2 other lines
-            if (reply_code == Stream.OKAY) {
+            if (reply_code == Stream.OKAY)
+            {
                 String SeqNumLine = scanIn.nextLine();
                 System.out.println(SeqNumLine);
 
@@ -421,7 +443,8 @@ public class Client extends Stream {
             }
         }
         catch (IllegalStateException | NumberFormatException |
-                NoSuchElementException ex) {
+                NoSuchElementException ex)
+        {
             System.out.println("Error Parsing the server response: " +
                     ex.getMessage());
             System.exit(5);

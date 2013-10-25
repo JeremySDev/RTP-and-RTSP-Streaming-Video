@@ -21,7 +21,8 @@ import javax.swing.Timer;
 /**
  * Base class for our Client and Server!
  */
-public class Stream {
+public class Stream
+{
 
     // RTP variables:
     /**
@@ -341,7 +342,8 @@ public class Stream {
     /*
      * Enum for readability. 
      */
-    private enum State {
+    private enum State
+    {
         INIT, READY, PLAYING
     }
 }

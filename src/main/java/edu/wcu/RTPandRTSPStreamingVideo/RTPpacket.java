@@ -2,7 +2,8 @@ package edu.wcu.RTPandRTSPStreamingVideo;
 
 //class RTPpacket
 
-public class RTPpacket {
+public class RTPpacket
+{
 
     //size of the RTP header:
     private static int HEADER_SIZE = 12;
@@ -12,7 +13,7 @@ public class RTPpacket {
     // Construct an  RTPpacket object from header fields and payload bitstream
     //--------------------------
     public RTPpacket(int pType, int framenb, int time, byte[] data,
-            int data_length)
+                     int data_length)
     {
         //fill by default header fields:
 
@@ -42,12 +43,16 @@ public class RTPpacket {
     //--------------------------
     public void printHeader()
     {
-        for (int i = 0; i < (HEADER_SIZE - 4); i++) {
-            for (int j = 7; j >= 0; j--) {
-                if (((1 << j) & header[i]) != 0) {
+        for (int i = 0; i < (HEADER_SIZE - 4); i++)
+        {
+            for (int j = 7; j >= 0; j--)
+            {
+                if (((1 << j) & header[i]) != 0)
+                {
                     System.out.print("1");
                 }
-                else {
+                else
+                {
                     System.out.print("0");
                 }
             }
@@ -59,10 +64,12 @@ public class RTPpacket {
     //return the unsigned value of 8-bit integer nb
     static int unsignedInt(int num)
     {
-        if (num >= 0) {
+        if (num >= 0)
+        {
             return (num);
         }
-        else {
+        else
+        {
             return (256 + num);
         }
     }
