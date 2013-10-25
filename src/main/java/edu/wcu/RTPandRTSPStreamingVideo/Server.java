@@ -1,3 +1,8 @@
+package edu.wcu.RTPandRTSPStreamingVideo;
+
+import edu.wcu.RTPandRTSPStreamingVideo.RTPpacket;
+import edu.wcu.RTPandRTSPStreamingVideo.Stream;
+
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -32,9 +37,9 @@ import javax.swing.JFrame;
  */
 public class Server extends Stream {
 
-    // Enumaration for readability
+    // Enumeration for readability
     private enum Message {
-        SETUP, PLAY, PAUSE, TEARDOWN, INVALID;
+        SETUP, PLAY, PAUSE, TEARDOWN, INVALID
     }
 
     // Packet:
@@ -97,16 +102,16 @@ public class Server extends Stream {
      * Constructor that creates a server that listens an RTSP client.
      *
      * @param portNum the listening port number.
-     * @throws NumberformatException thrown if port number is incorrectly
+     * @throws NumberFormatException thrown if port number is incorrectly
      *                               formatted.
      * @throws IOException           thrown if an error occurs creating the
-     * socket.
+     *                               socket.
      */
     public Server(String portNum) throws NumberFormatException,
             IOException
     {
         createUI();
-        int rtspPort = 0;
+        int rtspPort;
 
         // Initiate TCP connection with the client for the RTSP session
         rtspPort = Integer.parseInt(portNum);
@@ -178,7 +183,7 @@ public class Server extends Stream {
     /**
      * Entry point into the program. Whee
      *
-     * @param args[0] the port number for this server.
+     * @param args the port number for this server.
      */
     public static void main(String args[])
     {

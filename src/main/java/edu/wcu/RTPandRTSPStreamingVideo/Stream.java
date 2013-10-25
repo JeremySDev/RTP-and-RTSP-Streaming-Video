@@ -114,7 +114,7 @@ public class Stream {
     /**
      * Assign the name of the videofile we are streaming.
      *
-     * @name video file name.
+     * @param name video file name.
      */
     public void setVideoFileName(String name)
     {
@@ -124,7 +124,7 @@ public class Stream {
     /**
      * Get the storage buffer.
      *
-     * @param an rray of bytes for holding frame data.
+     * @return an array of bytes for holding frame data.
      */
     public byte[] getBuffer()
     {
@@ -256,9 +256,9 @@ public class Stream {
     }
 
     /**
-     * Creat the timer and set initial values.
+     * Create the timer and set initial values.
      *
-     * @param perion   timer interval.
+     * @param period   timer interval.
      * @param listener a listener to attach to the timer.
      */
     public void initTimer(int period, ActionListener listener)
@@ -311,7 +311,7 @@ public class Stream {
     /**
      * Determine if we are in the play state.
      *
-     * @return true if we are in the ready state, fasle otherwise
+     * @return true if we are in the ready state, false otherwise
      */
     public boolean isPlayState()
     {
@@ -321,7 +321,7 @@ public class Stream {
     /**
      * Determine if we are in the init state.
      *
-     * @return true if we are in the ready state, fasle otherwise
+     * @return true if we are in the ready state, false otherwise
      */
     public boolean isInitState()
     {
@@ -331,7 +331,7 @@ public class Stream {
     /**
      * Determine if we are in the ready state.
      *
-     * @return true if we are in the ready state, fasle otherwise
+     * @return true if we are in the ready state, false otherwise
      */
     public boolean isReadyState()
     {
@@ -342,6 +342,6 @@ public class Stream {
      * Enum for readability. 
      */
     private enum State {
-        INIT, READY, PLAYING;
+        INIT, READY, PLAYING
     }
 }

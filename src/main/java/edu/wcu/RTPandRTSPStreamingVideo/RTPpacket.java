@@ -6,7 +6,7 @@ public class RTPpacket {
 
     //size of the RTP header:
     private static int HEADER_SIZE = 12;
-
+    private int[] header = {4};
 
     //--------------------------
     // Construct an  RTPpacket object from header fields and payload bitstream
@@ -66,4 +66,14 @@ public class RTPpacket {
             return (256 + num);
         }
     }
+
+    public void getpayload(byte[] payload)
+    {
+    }
+
+    public int getpayload_length()
+    {
+        return 4;
+    }
+
 }

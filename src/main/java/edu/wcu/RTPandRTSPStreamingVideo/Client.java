@@ -126,10 +126,10 @@ public class Client extends Stream {
     /**
      * constructor.
      *
-     * @param args[0] Hostname running the RTP server
-     * @param args[1] RTP receive port!
-     * @param args[2] Server port!
-     * @param args[3] Name of the video file to play
+     * @param args [0] Hostname running the RTP server
+     * @param args [1] RTP receive port!
+     * @param args [2] Server port!
+     * @param args [3] Name of the video file to play
      */
     public Client(String[] args) throws UnknownHostException, IOException
     {
@@ -223,7 +223,7 @@ public class Client extends Stream {
 
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         // Pack it so I can get the inset values to make everything nicely
-        // layed out.
+        // laid out.
         frame.pack();
 
         frame.setLocation(new Point(200, 100)); // Magic numbers :(
@@ -250,10 +250,10 @@ public class Client extends Stream {
     /**
      * Starting point of the program.
      *
-     * @param args[0] Hostname running the RTP server
-     * @param args[1] RTP receive port!
-     * @param args[2] Server port!
-     * @param args[3] Name of the video file to play
+     * @param args [0] Hostname running the RTP server
+     * @param args [1] RTP receive port!
+     * @param args [2] Server port!
+     * @param args [3] Name of the video file to play
      */
     public static void main(String args[])
     {
@@ -292,7 +292,7 @@ public class Client extends Stream {
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO
+            // sTODO
         }
     }
 
@@ -325,140 +325,136 @@ public class Client extends Stream {
 
             // TODO
         }
+    }
 
 
+    /**
+     * Handler for Teardown Button
+     */
+    class tearButtonListener implements ActionListener {
         /**
-         * Handler for Teardown Button
-         */
-        class tearButtonListener implements ActionListener {
-            /**
-             * Perform an action when an event occurs!
-             *
-             * @param e the event that started this whole mess!
-             */
-            public void actionPerformed(ActionEvent e)
-            {
-
-                // TODO: Teardown request!!
-                System.exit(0);
-            }
-        }
-
-
-        /**
-         * Handler for the Timer. Gets RTP packets and displays them in the UI.
-         */
-        class timerListener implements ActionListener {
-            /**
-             * Perform an action when an event occurs!
-             *
-             * @param e the event that started this whole mess!
-             */
-            public void actionPerformed(ActionEvent e)
-            {
-
-                //Construct a DatagramPacket to receive data from the UDP socket
-                receivePacket = getDgPacket();
-                try {
-                    getRtpSocket().receive(receivePacket);
-                    //create an RTPpacket object from the Datagram packet.
-                    RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
-                            receivePacket.getLength());
-
-                    // Get the payload bitstream from the RTPpacket object
-                    int payload_length = rtpPacket.getpayload_length();
-                    byte[] payload = new byte[payload_length];
-                    rtpPacket.getpayload(payload);
-
-                    // Get an Image object from the payload bitstream
-                    Toolkit toolkit = Toolkit.getDefaultToolkit();
-                    Image image = toolkit.createImage(payload, 0,
-                            payload_length);
-
-                    // Display the image as an ImageIcon object
-                    icon = new ImageIcon(image);
-                    iconLabel.setIcon(icon);
-                }
-                catch (InterruptedIOException iioe) {
-                    //System.out.println("Nothing to read");
-                }
-                catch (IOException ioe) {
-                    System.out.println("IOException caught: " + ioe
-                            .getMessage());
-                }
-            }
-        }
-
-        /**
-         * Parse Server Response.
-         */
-        private int parseServerResponse()
-        {
-            int reply_code = 0;
-
-            try {
-                // Parse status line and extract the reply_code:
-                String StatusLine = scanIn.nextLine();
-
-                StringTokenizer tokens = new StringTokenizer(StatusLine);
-                tokens.nextToken(); //skip over the RTSP version number
-                reply_code = Integer.parseInt(tokens.nextToken());
-
-                // If reply code is OK get and print the 2 other lines
-                if (reply_code == Stream.OKAY) {
-                    String SeqNumLine = scanIn.nextLine();
-                    System.out.println(SeqNumLine);
-
-                    String SessionLine = scanIn.nextLine();
-                    System.out.println(SessionLine);
-
-                    // If state == State.INIT get the Session Id from
-                    // SessionLine
-                    tokens = new StringTokenizer(SessionLine);
-                    tokens.nextToken(); // Skip over the Session:
-                    setRtspID(Integer.parseInt(tokens.nextToken()));
-                }
-            }
-            catch (IllegalStateException | NumberFormatException |
-                    NoSuchElementException ex) {
-                System.out.println("Error Parsing the server response: " +
-                        ex.getMessage());
-                System.exit(5);
-            }
-            return (reply_code);
-        }
-
-
-        /**
-         * Write a request to the RTSP socket.
+         * Perform an action when an event occurs!
          *
-         * @param requestType the type of request we are making.
+         * @param e the event that started this whole mess!
          */
-        private void sendRtspRequest(String requestType)
+        public void actionPerformed(ActionEvent e)
         {
+
+            // TODO: Teardown request!!
+            System.exit(0);
+        }
+    }
+
+
+    /**
+     * Handler for the Timer. Gets RTP packets and displays them in the UI.
+     */
+    class timerListener implements ActionListener {
+        /**
+         * Perform an action when an event occurs!
+         *
+         * @param e the event that started this whole mess!
+         */
+        public void actionPerformed(ActionEvent e)
+        {
+
+            //Construct a DatagramPacket to receive data from the UDP socket
+            receivePacket = getDgPacket();
             try {
-                // TODO
-                // Write the request line!
-                // Write the CSeq line:
+                getRtpSocket().receive(receivePacket);
+                //create an RTPpacket object from the Datagram packet.
+                RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
+                        receivePacket.getLength());
+
+                // Get the payload bitstream from the RTPpacket object
+                int payload_length = rtpPacket.getpayload_length();
+                byte[] payload = new byte[payload_length];
+                rtpPacket.getpayload(payload);
+
+                // Get an Image object from the payload bitstream
+                Toolkit toolkit = Toolkit.getDefaultToolkit();
+                Image image = toolkit.createImage(payload, 0,
+                        payload_length);
+
+                // Display the image as an ImageIcon object
+                icon = new ImageIcon(image);
+                iconLabel.setIcon(icon);
+            }
+            catch (InterruptedIOException iioe) {
+                //System.out.println("Nothing to read");
+            }
+            catch (IOException ioe) {
+                System.out.println("IOException caught: " + ioe
+                        .getMessage());
+            }
+        }
+    }
+
+    /**
+     * Parse Server Response.
+     */
+    private int parseServerResponse()
+    {
+        int reply_code = 0;
+
+        try {
+            // Parse status line and extract the reply_code:
+            String StatusLine = scanIn.nextLine();
+
+            StringTokenizer tokens = new StringTokenizer(StatusLine);
+            tokens.nextToken(); //skip over the RTSP version number
+            reply_code = Integer.parseInt(tokens.nextToken());
+
+            // If reply code is OK get and print the 2 other lines
+            if (reply_code == Stream.OKAY) {
+                String SeqNumLine = scanIn.nextLine();
+                System.out.println(SeqNumLine);
+
+                String SessionLine = scanIn.nextLine();
+                System.out.println(SessionLine);
+
+                // If state == State.INIT get the Session Id from
+                // SessionLine
+                tokens = new StringTokenizer(SessionLine);
+                tokens.nextToken(); // Skip over the Session:
+                setRtspID(Integer.parseInt(tokens.nextToken()));
+            }
+        }
+        catch (IllegalStateException | NumberFormatException |
+                NoSuchElementException ex) {
+            System.out.println("Error Parsing the server response: " +
+                    ex.getMessage());
+            System.exit(5);
+        }
+        return (reply_code);
+    }
+
+
+    /**
+     * Write a request to the RTSP socket.
+     *
+     * @param requestType the type of request we are making.
+     */
+    private void sendRtspRequest(String requestType)
+    {
+        /*try {
+            // TODO
+            // Write the request line!
+            // Write the CSeq line:
 
             /*
              * Check if requestType is equal to "SETUP" and  write the
              * transport line advertising to the server the port used to 
              * receive the RTP packets rtpReceivePort
              *
-             * Otherwise write the Sesion line from the rtspID field
-             */
-            }
-            scanOut.flush();
+             * Otherwise write the Session line from the rtspID field
+
         }
-
-        catch(
-        IOException ioe
-        )
-
-        {
+        scanOut.flush();
+        catch (IOException ioe) {
             System.out.println("IOException caught : " + ioe);
             System.exit(1);
-        }
+        }*/
     }
 }
+
