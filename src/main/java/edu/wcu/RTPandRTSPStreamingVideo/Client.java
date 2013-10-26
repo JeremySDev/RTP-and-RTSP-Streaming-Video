@@ -36,8 +36,10 @@ import javax.swing.Timer;
 /**
  * Client to play a movie stream from an RTSP server.
  *
- * @author William Kreahling, based on code from Kurose/Ross
- * @version October 11, 2013
+ * @author Jeremy Stilwell
+ * @author Alisha Hayman
+ * @author William Kreahling, based on Kurose/Ross
+ * @version 10/26/13.
  */
 public class Client extends Stream
 {

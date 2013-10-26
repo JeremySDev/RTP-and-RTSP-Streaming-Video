@@ -32,8 +32,10 @@ import javax.swing.JFrame;
  * Models an RTSP server.
  * usage: java Server <RTSP port>
  *
+ * @author Jeremy Stilwell
+ * @author Alisha Hayman
  * @author William Kreahling, based on Kurose/Ross
- * @version October 11, 2013
+ * @version 10/26/13.
  */
 public class Server extends Stream
 {

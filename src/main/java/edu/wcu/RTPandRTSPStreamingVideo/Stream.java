@@ -20,6 +20,10 @@ import javax.swing.Timer;
 
 /**
  * Base class for our Client and Server!
+ *
+ * @author Jeremy Stilwell
+ * @author Alisha Hayman
+ * @version 10/26/13.
  */
 public class Stream
 {

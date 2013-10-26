@@ -1,13 +1,17 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
-
 import java.io.IOException;
 
+/**
+ *
+ * @author Jeremy Stilwell
+ * @author Alisha Hayman
+ * @author William Kreahling, based on Kurose/Ross
+ * @version 10/26/13.
+ */
 public interface VideoInterface
 {
 
-    /**
-     * Size of the header field before each frame of video in an MJPEG file
-     */
+    /* Size of the header field before each frame of video in an MJPEG file */
     public static final int HEADER = 5;
 
     /**

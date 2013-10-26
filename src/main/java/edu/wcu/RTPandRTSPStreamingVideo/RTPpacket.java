@@ -1,7 +1,12 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-//class RTPpacket
-
+/**
+ * RTPpacket handles the creation and use of RTP packets
+ *
+ * @author Jeremy Stilwell
+ * @author Alisha Hayman
+ * @version 10/26/13.
+ */
 public class RTPpacket
 {
 

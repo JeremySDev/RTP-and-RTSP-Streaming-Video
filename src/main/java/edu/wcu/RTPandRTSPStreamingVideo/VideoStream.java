@@ -1,7 +1,9 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
 /**
+ *
  * @author Jeremy Stilwell
+ * @author Alisha Hayman
  * @version 10/26/13.
  */
 public class VideoStream implements VideoInterface
