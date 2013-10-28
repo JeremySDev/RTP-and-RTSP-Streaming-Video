@@ -1,5 +1,9 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 /**
  *
  * @author Jeremy Stilwell
@@ -8,8 +12,11 @@ package edu.wcu.RTPandRTSPStreamingVideo;
  */
 public class VideoStream implements VideoInterface
 {
-    public VideoStream(String videoFileName)
+    public VideoStream(String videoFileName) throws FileNotFoundException
     {
+        File file = new File(videoFileName);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
     }
 
     public int getNextFrame(byte[] buffer)
