@@ -307,8 +307,8 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            // TODO
             System.out.println("Setup");
-
         }
     }
 
@@ -325,7 +325,7 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("play");
+            System.out.println("Test1: " + scanIn.hasNext());
         }
     }
 

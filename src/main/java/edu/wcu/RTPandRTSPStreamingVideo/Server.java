@@ -439,7 +439,9 @@ public class Server extends Stream
      */
     private void sendRtspResponse() throws IOException
     {
+        System.out.println("Test1: " + scanIn.hasNext());
         // TODO
+
 
     }
 }
