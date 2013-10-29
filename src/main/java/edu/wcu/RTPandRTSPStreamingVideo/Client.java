@@ -307,10 +307,9 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("setup");
             try
             {
-                sendRtspRequest("setup");
+                sendRtspRequest("SETUP");
             }
             catch (IOException ioe)
             {
@@ -332,10 +331,9 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("play");
             try
             {
-                sendRtspRequest("play");
+                sendRtspRequest("PLAY");
             }
             catch (IOException ioe)
             {
@@ -357,10 +355,9 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("pause");
             try
             {
-                sendRtspRequest("pause");
+                sendRtspRequest("PAUSE");
             }
             catch (IOException ioe)
             {
@@ -384,10 +381,9 @@ public class Client extends Stream
         {
 
             // TODO: Teardown request!!
-            System.out.println("teardown");
             try
             {
-                sendRtspRequest("teardown");
+                sendRtspRequest("TEARDOWN");
             }
             catch (IOException ioe)
             {
@@ -509,13 +505,15 @@ public class Client extends Stream
              *
              * Otherwise write the Session line from the rtspID field
              */
-            scanOut.flush();
+            System.out.println("Request Type: " + requestType);
+            scanOut.write(requestType + "\n");
         }
         catch (IOException ioe)
         {
             System.out.println("IOException caught : " + ioe);
             System.exit(1);
         }
+        scanOut.flush();
     }
 }
 

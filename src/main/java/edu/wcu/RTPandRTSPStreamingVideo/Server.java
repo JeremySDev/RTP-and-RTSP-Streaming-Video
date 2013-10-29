@@ -189,7 +189,6 @@ public class Server extends Stream
      */
     public static void main(String args[])
     {
-
         if (args.length != 1)
         {
             Server.printUsageAndExit();
@@ -205,14 +204,13 @@ public class Server extends Stream
             System.out.println("Error creating the server: " + ex.getMessage());
             System.exit(2);
         }
-
         // Wait for the SETUP message from the client, good server!
         Message requestType = Message.PLAY;
         boolean done = false;
         while (!done)
         {
             requestType = server.parseRtspRequest(); // blocking call
-
+            System.out.println("request type: " + requestType);
             if (requestType == Message.SETUP)
             {
                 done = true;
@@ -230,7 +228,6 @@ public class Server extends Stream
                     System.out.println("Error communicating with the client: " +
                             ioe.getMessage());
                     System.exit(3);
-
                 }
             }
         }
@@ -241,7 +238,7 @@ public class Server extends Stream
             while (requestType != Message.TEARDOWN)
             {
                 requestType = server.parseRtspRequest(); //blocking
-
+                System.out.println("request type1: " + requestType);
                 if (requestType == Message.PLAY && server.isReadyState())
                 {
                     server.sendRtspResponse();
@@ -385,11 +382,9 @@ public class Server extends Stream
         {
             // Parse request line and extract the requestType:
             String RequestLine = scanIn.nextLine();
-
             StringTokenizer tokens = new StringTokenizer(RequestLine);
             requestType = string2Message(tokens.nextToken());
-
-
+            // if request type is setup
             if (requestType == Message.SETUP)
             {
                 //extract VideoFileName from RequestLine
