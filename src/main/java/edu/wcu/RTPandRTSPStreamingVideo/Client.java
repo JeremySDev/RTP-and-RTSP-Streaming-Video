@@ -307,7 +307,8 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // sTODO
+            System.out.println("Setup");
+
         }
     }
 
@@ -324,6 +325,7 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
+            System.out.println("play");
         }
     }
 
@@ -339,8 +341,8 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-
             // TODO
+            System.out.println("pause");
         }
     }
 

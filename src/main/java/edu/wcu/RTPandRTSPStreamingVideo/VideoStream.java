@@ -2,7 +2,7 @@ package edu.wcu.RTPandRTSPStreamingVideo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  *
@@ -12,10 +12,11 @@ import java.io.FileNotFoundException;
  */
 public class VideoStream implements VideoInterface
 {
-    public VideoStream(String videoFileName) throws FileNotFoundException
+    public VideoStream(String videoFileName) throws IOException
     {
         File file = new File(videoFileName);
         FileInputStream fileInputStream = new FileInputStream(file);
+        fileInputStream.read();
 
     }
 
