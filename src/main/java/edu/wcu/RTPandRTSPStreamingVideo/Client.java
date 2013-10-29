@@ -308,7 +308,14 @@ public class Client extends Stream
         {
             // TODO
             System.out.println("setup");
-            sendRtspRequest("setup");
+            try
+            {
+                sendRtspRequest("setup");
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
         }
     }
 
@@ -326,7 +333,14 @@ public class Client extends Stream
         {
             // TODO
             System.out.println("play");
-            sendRtspRequest("play");
+            try
+            {
+                sendRtspRequest("play");
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
         }
     }
 
@@ -344,7 +358,14 @@ public class Client extends Stream
         {
             // TODO
             System.out.println("pause");
-            sendRtspRequest("pause");
+            try
+            {
+                sendRtspRequest("pause");
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
         }
     }
 
@@ -364,7 +385,14 @@ public class Client extends Stream
 
             // TODO: Teardown request!!
             System.out.println("teardown");
-            sendRtspRequest("teardown");
+            try
+            {
+                sendRtspRequest("teardown");
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+            }
             System.exit(0);
         }
     }
