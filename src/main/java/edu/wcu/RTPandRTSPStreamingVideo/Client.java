@@ -125,7 +125,6 @@ public class Client extends Stream
      */
     public final static int RTSP_PORT = 9999;
 
-
     /**
      * constructor.
      *
@@ -308,7 +307,8 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("Setup");
+            System.out.println("setup");
+            sendRtspRequest("setup");
         }
     }
 
@@ -325,7 +325,8 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("Test1: " + scanIn.hasNext());
+            System.out.println("setup");
+            sendRtspRequest("play");
         }
     }
 
@@ -343,6 +344,7 @@ public class Client extends Stream
         {
             // TODO
             System.out.println("pause");
+            sendRtspRequest("pause");
         }
     }
 
@@ -361,6 +363,8 @@ public class Client extends Stream
         {
 
             // TODO: Teardown request!!
+            System.out.println("teardown");
+            sendRtspRequest("teardown");
             System.exit(0);
         }
     }
