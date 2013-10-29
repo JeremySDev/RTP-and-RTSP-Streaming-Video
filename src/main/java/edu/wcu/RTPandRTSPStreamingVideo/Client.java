@@ -325,7 +325,7 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            System.out.println("setup");
+            System.out.println("play");
             sendRtspRequest("play");
         }
     }
@@ -466,9 +466,10 @@ public class Client extends Stream
      *
      * @param requestType the type of request we are making.
      */
-    private void sendRtspRequest(String requestType)
+    private void sendRtspRequest(String requestType) throws IOException
     {
-        /*try {
+        try
+        {
             // TODO
             // Write the request line!
             // Write the CSeq line:
@@ -479,13 +480,14 @@ public class Client extends Stream
              * receive the RTP packets rtpReceivePort
              *
              * Otherwise write the Session line from the rtspID field
-
+             */
+            scanOut.flush();
         }
-        scanOut.flush();
-        catch (IOException ioe) {
+        catch (IOException ioe)
+        {
             System.out.println("IOException caught : " + ioe);
             System.exit(1);
-        }*/
+        }
     }
 }
 
