@@ -6,6 +6,11 @@ package edu.wcu.RTPandRTSPStreamingVideo;
  */
 public class Main
 {
+    /**
+     * main method to run client and server
+     *
+     * @param args
+     */
     public static void main(String args[])
     {
         final String[] argumentA = new String[] {"1024"};
