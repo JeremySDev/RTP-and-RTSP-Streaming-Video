@@ -10,6 +10,13 @@ import junit.framework.TestSuite;
 public class AppTest 
     extends TestCase
 {
+    public static void main(String args[])
+    {
+        String[] arguments = new String[] {"1024"};
+        Server.main(arguments);
+        String[] arguments2 = new String[] {"localhost", "1025", "1024", "/home/jstilwell/Videos/movie.Mjpeg"};
+        Client.main(arguments2);
+    }
     /**
      * Create the test case
      *
