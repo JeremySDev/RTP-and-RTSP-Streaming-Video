@@ -1,5 +1,7 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
+import sun.rmi.transport.Transport;
+
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -505,8 +507,22 @@ public class Client extends Stream
              *
              * Otherwise write the Session line from the rtspID field
              */
-            System.out.println("Request Type: " + requestType);
-            scanOut.write(requestType + "\n");
+
+            // SETUP movie.Mjpeg RTSP/1.0
+            scanOut.write(requestType + " " + getVideoFileName() + " RTSP/1.0" +
+                    "\n");
+            System.out.println(
+                    "C: " + requestType + " " + getVideoFileName() +
+                            " RTSP/1.0");
+
+            scanOut.write("CSeq: 1" + "\n");
+            System.out.println("C: CSeq: 1");
+
+            // Transport: RTP/UDP; client_port= 5000
+            scanOut.write(
+                    "Transport: RTP/UDP; client_port= " + rtpReceivePort + "\n");
+            System.out.println(
+                    "C: Transport: RTP/UDP; client_port= " + rtpReceivePort);
         }
         catch (IOException ioe)
         {
