@@ -372,7 +372,7 @@ public class Server extends Stream
     }
 
     /**
-     * Figure out what the server sent to us!
+     * Figure out what the server(client?) sent to us!
      */
     private Message parseRtspRequest()
     {
@@ -382,6 +382,7 @@ public class Server extends Stream
         {
             // Parse request line and extract the requestType:
             String RequestLine = scanIn.nextLine();
+            System.out.println("RequestLine: " + RequestLine);
             StringTokenizer tokens = new StringTokenizer(RequestLine);
             requestType = string2Message(tokens.nextToken());
             // if request type is setup
