@@ -394,7 +394,9 @@ public class Server extends Stream
                 setVideoFileName(tokens.nextToken());
             }
 
-            //send client OK response
+            //get rid of anything that might have been left over
+            responseOne.delete(0, responseOne.length());
+            //creating first response
             responseOne.append(tokens.nextToken() + " " + OKAY + " OK");
 
             // Parse the SeqNumLine and extract CSeq field
@@ -440,11 +442,9 @@ public class Server extends Stream
      */
     private void sendRtspResponse() throws IOException
     {
-        //System.out.println("Test1: " + scanIn.hasNext() + "\n");
-        // TODO
-        //send Client
+        //Send client reply code response
         scanOut.write(responseOne.toString() + "\n");
-        responseOne.delete(0, responseOne.length());
+
 
         //Send client sequence response
         scanOut.write("CSeq: " + getRtspSeqNum() + "\n");
@@ -452,7 +452,5 @@ public class Server extends Stream
         //Send client session response
         scanOut.write("Session: " + getRtspID() + "\n");
         scanOut.flush();
-
-
     }
 }
