@@ -444,9 +444,11 @@ public class Server extends Stream
         // TODO
         //send Client
         scanOut.write(responseOne.toString() + "\n");
+        responseOne.delete(0, responseOne.length());
 
         //Send client sequence response
         scanOut.write("CSeq: " + getRtspSeqNum() + "\n");
+
         //Send client session response
         scanOut.write("Session: " + getRtspID() + "\n");
         scanOut.flush();
