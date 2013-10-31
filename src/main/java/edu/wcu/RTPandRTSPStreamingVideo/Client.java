@@ -15,6 +15,7 @@ import java.io.BufferedWriter;
 import java.io.InterruptedIOException;
 import java.util.Scanner;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -492,6 +493,9 @@ public class Client extends Stream
      *
      * @param requestType the type of request we are making.
      */
+    // TODO fix this
+    int i = 1;
+
     private void sendRtspRequest(String requestType) throws IOException
     {
         try
@@ -509,20 +513,30 @@ public class Client extends Stream
              */
 
             // SETUP movie.Mjpeg RTSP/1.0
-            scanOut.write(requestType + " " + getVideoFileName() + " RTSP/1.0" +
-                    "\n");
-            System.out.println(
-                    "C: " + requestType + " " + getVideoFileName() +
-                            " RTSP/1.0");
+            String lineOne =
+                    requestType + " " + getVideoFileName() + " RTSP/1.0";
+            String lineTwo = "CSeq: " + i++;
+            StringBuilder lineThree = new StringBuilder();
 
-            scanOut.write("CSeq: 1" + "\n");
-            System.out.println("C: CSeq: 1");
+            if (requestType.equals("SETUP"))
+            {
+                // Transport: RTP/UDP; client_port= 5000
+                lineThree.append("Transport: RTP/UDP; client_port= " +
+                        rtpReceivePort + "\n");
+            }
+            else
+            {
+                lineThree.append("Session: " + getRtspID() + "\n");
+            }
 
-            // Transport: RTP/UDP; client_port= 5000
-            scanOut.write(
-                    "Transport: RTP/UDP; client_port= " + rtpReceivePort + "\n");
-            System.out.println(
-                    "C: Transport: RTP/UDP; client_port= " + rtpReceivePort);
+            scanOut.write(lineOne + "\n");
+            System.out.println("C: " + lineOne);
+
+            scanOut.write(lineTwo + "\n");
+            System.out.println("C: " + lineTwo);
+
+            scanOut.write(lineThree.toString());
+            System.out.println("C: " + lineThree.toString());
         }
         catch (IOException ioe)
         {

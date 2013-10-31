@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- *
  * @author Jeremy Stilwell
  * @author Alisha Hayman
  * @version 10/26/13.

@@ -211,7 +211,7 @@ public class Server extends Stream
         while (!done)
         {
             requestType = server.parseRtspRequest(); // blocking call
-            System.out.println("request type: " + requestType);
+            //System.out.println("request type: " + requestType);
             if (requestType == Message.SETUP)
             {
                 done = true;
@@ -239,7 +239,7 @@ public class Server extends Stream
             while (requestType != Message.TEARDOWN)
             {
                 requestType = server.parseRtspRequest(); //blocking
-                System.out.println("request type1: " + requestType);
+                //System.out.println("request type1: " + requestType);
                 if (requestType == Message.PLAY && server.isReadyState())
                 {
                     server.sendRtspResponse();
@@ -386,7 +386,8 @@ public class Server extends Stream
             StringTokenizer tokens = new StringTokenizer(RequestLine);
 
             /*TODO get rid of debug here int j = 0;
-            while (tokens.hasMoreTokens()){ System.out.println("S: token " + j++ + " " + tokens.nextToken()); }*/
+            while (tokens.hasMoreTokens()){ System.out.println("S: token " +
+            j++ + " " + tokens.nextToken()); }*/
 
             requestType = string2Message(tokens.nextToken());
 
@@ -403,7 +404,7 @@ public class Server extends Stream
             tokens = new StringTokenizer(SeqNumLine);
             tokens.nextToken();
             setRtspSeqNum(Integer.parseInt(tokens.nextToken()));
-            System.out.println("S: RSTP Seq Num " + getRtspSeqNum());
+            System.out.println("S: CSeq: " + getRtspSeqNum());
 
             // Get LastLine
             String LastLine = scanIn.nextLine();
@@ -423,12 +424,13 @@ public class Server extends Stream
                 rtpDestPort = Integer.parseInt(tokens.nextToken());
             }
             // else LastLine will be the SessionId line, do not check for now.
+            System.out.println("S: Session: " + getRtspID() + "\n");
         }
         catch (NoSuchElementException | IllegalStateException ex)
         {
             // If this happens we are borked, so quiting now, instead of
             // sending to main!
-            System.out.println("S: k: " + k);
+            //System.out.println("S: k: " + k);
             System.out.println("Error Parsing RTSP request: " +
                     ex.getMessage());
             System.exit(1);
@@ -443,7 +445,7 @@ public class Server extends Stream
      */
     private void sendRtspResponse() throws IOException
     {
-        System.out.println("Test1: " + scanIn.hasNext());
+        System.out.println("Test1: " + scanIn.hasNext() + "\n");
         // TODO
 
 

@@ -1,8 +1,8 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
+
 import java.io.IOException;
 
 /**
- *
  * @author Jeremy Stilwell
  * @author Alisha Hayman
  * @author William Kreahling, based on Kurose/Ross

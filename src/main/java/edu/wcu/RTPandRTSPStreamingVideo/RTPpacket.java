@@ -87,10 +87,12 @@ public class RTPpacket
     {
         return 4;
     }
+
     public int getlength()
     {
         return 4;
     }
+
     public int getpacket(byte[] packetBits)
     {
         return 4;
