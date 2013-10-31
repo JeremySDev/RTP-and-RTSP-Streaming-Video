@@ -128,6 +128,8 @@ public class Client extends Stream
      */
     public final static int RTSP_PORT = 9999;
 
+    private int numberTimesRun = 0;
+
     /**
      * constructor.
      *
@@ -493,11 +495,9 @@ public class Client extends Stream
      *
      * @param requestType the type of request we are making.
      */
-    // TODO fix this
-    int i = 1;
-
     private void sendRtspRequest(String requestType) throws IOException
     {
+        numberTimesRun++;
         try
         {
             // TODO
@@ -515,7 +515,7 @@ public class Client extends Stream
             // SETUP movie.Mjpeg RTSP/1.0
             String lineOne =
                     requestType + " " + getVideoFileName() + " RTSP/1.0";
-            String lineTwo = "CSeq: " + i++;
+            String lineTwo = "CSeq: " + numberTimesRun;
             StringBuilder lineThree = new StringBuilder();
 
             if (requestType.equals("SETUP"))

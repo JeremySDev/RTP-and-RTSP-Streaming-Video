@@ -36,7 +36,6 @@ import javax.swing.JFrame;
  */
 public class Server extends Stream
 {
-    int k = 0;
 
     // Enumeration for readability
     private enum Message
@@ -211,7 +210,6 @@ public class Server extends Stream
         while (!done)
         {
             requestType = server.parseRtspRequest(); // blocking call
-            //System.out.println("request type: " + requestType);
             if (requestType == Message.SETUP)
             {
                 done = true;
@@ -397,13 +395,17 @@ public class Server extends Stream
                 //extract and set VideoFileName from RequestLine
                 setVideoFileName(tokens.nextToken());
             }
+
+            //Output print line
             System.out.println("S: " + tokens.nextToken() + " 200 OK");
+
             // Parse the SeqNumLine and extract CSeq field
             String SeqNumLine = scanIn.nextLine();
-            //System.out.println("got here3: " + SeqNumLine);
             tokens = new StringTokenizer(SeqNumLine);
             tokens.nextToken();
             setRtspSeqNum(Integer.parseInt(tokens.nextToken()));
+
+            //Output print line
             System.out.println("S: CSeq: " + getRtspSeqNum());
 
             // Get LastLine
@@ -424,13 +426,14 @@ public class Server extends Stream
                 rtpDestPort = Integer.parseInt(tokens.nextToken());
             }
             // else LastLine will be the SessionId line, do not check for now.
+
+            //Output print line
             System.out.println("S: Session: " + getRtspID() + "\n");
         }
         catch (NoSuchElementException | IllegalStateException ex)
         {
             // If this happens we are borked, so quiting now, instead of
             // sending to main!
-            //System.out.println("S: k: " + k);
             System.out.println("Error Parsing RTSP request: " +
                     ex.getMessage());
             System.exit(1);
