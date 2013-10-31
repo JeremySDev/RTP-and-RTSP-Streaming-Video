@@ -237,7 +237,6 @@ public class Server extends Stream
             while (requestType != Message.TEARDOWN)
             {
                 requestType = server.parseRtspRequest(); //blocking
-                //System.out.println("request type1: " + requestType);
                 if (requestType == Message.PLAY && server.isReadyState())
                 {
                     server.sendRtspResponse();
@@ -382,11 +381,6 @@ public class Server extends Stream
             // Parse request line and extract the requestType:
             String RequestLine = scanIn.nextLine();
             StringTokenizer tokens = new StringTokenizer(RequestLine);
-
-            /*TODO get rid of debug here int j = 0;
-            while (tokens.hasMoreTokens()){ System.out.println("S: token " +
-            j++ + " " + tokens.nextToken()); }*/
-
             requestType = string2Message(tokens.nextToken());
 
             // if request type is setup
@@ -397,7 +391,7 @@ public class Server extends Stream
             }
 
             //Output print line
-            System.out.println("S: " + tokens.nextToken() + " 200 OK");
+            System.out.println("S: " + tokens.nextToken() + OKAY + " OK");
 
             // Parse the SeqNumLine and extract CSeq field
             String SeqNumLine = scanIn.nextLine();
