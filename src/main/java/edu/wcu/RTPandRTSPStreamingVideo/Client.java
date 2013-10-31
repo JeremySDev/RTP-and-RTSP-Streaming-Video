@@ -315,6 +315,7 @@ public class Client extends Stream
             try
             {
                 sendRtspRequest("SETUP");
+                parseServerResponse();
             }
             catch (IOException ioe)
             {
@@ -339,6 +340,7 @@ public class Client extends Stream
             try
             {
                 sendRtspRequest("PLAY");
+                parseServerResponse();
             }
             catch (IOException ioe)
             {
@@ -363,6 +365,7 @@ public class Client extends Stream
             try
             {
                 sendRtspRequest("PAUSE");
+                parseServerResponse();
             }
             catch (IOException ioe)
             {
@@ -370,7 +373,6 @@ public class Client extends Stream
             }
         }
     }
-
 
     /**
      * Handler for Teardown Button
@@ -389,6 +391,7 @@ public class Client extends Stream
             try
             {
                 sendRtspRequest("TEARDOWN");
+                parseServerResponse();
             }
             catch (IOException ioe)
             {
@@ -397,7 +400,6 @@ public class Client extends Stream
             System.exit(0);
         }
     }
-
 
     /**
      * Handler for the Timer. Gets RTP packets and displays them in the UI.
@@ -458,6 +460,7 @@ public class Client extends Stream
         {
             // Parse status line and extract the reply_code:
             String StatusLine = scanIn.nextLine();
+            System.out.println("S: " + StatusLine);
 
             StringTokenizer tokens = new StringTokenizer(StatusLine);
             tokens.nextToken(); //skip over the RTSP version number
@@ -467,10 +470,10 @@ public class Client extends Stream
             if (reply_code == Stream.OKAY)
             {
                 String SeqNumLine = scanIn.nextLine();
-                System.out.println(SeqNumLine);
+                System.out.println("S: " + SeqNumLine);
 
                 String SessionLine = scanIn.nextLine();
-                System.out.println(SessionLine);
+                System.out.println("S: " + SessionLine + "\n");
 
                 // If state == State.INIT get the Session Id from
                 // SessionLine

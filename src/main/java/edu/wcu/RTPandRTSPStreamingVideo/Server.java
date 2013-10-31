@@ -37,6 +37,10 @@ import javax.swing.JFrame;
 public class Server extends Stream
 {
 
+    //Helper to build a server response since not all of the information 
+    //required for this response retrievable by method calls 
+    private StringBuilder responseOne = new StringBuilder();
+
     // Enumeration for readability
     private enum Message
     {
@@ -390,17 +394,14 @@ public class Server extends Stream
                 setVideoFileName(tokens.nextToken());
             }
 
-            //Output print line
-            System.out.println("S: " + tokens.nextToken() + OKAY + " OK");
+            //send client OK response
+            responseOne.append(tokens.nextToken() + " " + OKAY + " OK");
 
             // Parse the SeqNumLine and extract CSeq field
             String SeqNumLine = scanIn.nextLine();
             tokens = new StringTokenizer(SeqNumLine);
             tokens.nextToken();
             setRtspSeqNum(Integer.parseInt(tokens.nextToken()));
-
-            //Output print line
-            System.out.println("S: CSeq: " + getRtspSeqNum());
 
             // Get LastLine
             String LastLine = scanIn.nextLine();
@@ -420,9 +421,6 @@ public class Server extends Stream
                 rtpDestPort = Integer.parseInt(tokens.nextToken());
             }
             // else LastLine will be the SessionId line, do not check for now.
-
-            //Output print line
-            System.out.println("S: Session: " + getRtspID() + "\n");
         }
         catch (NoSuchElementException | IllegalStateException ex)
         {
@@ -442,8 +440,16 @@ public class Server extends Stream
      */
     private void sendRtspResponse() throws IOException
     {
-        System.out.println("Test1: " + scanIn.hasNext() + "\n");
+        //System.out.println("Test1: " + scanIn.hasNext() + "\n");
         // TODO
+        //send Client
+        scanOut.write(responseOne.toString() + "\n");
+
+        //Send client sequence response
+        scanOut.write("CSeq: " + getRtspSeqNum() + "\n");
+        //Send client session response
+        scanOut.write("Session: " + getRtspID() + "\n");
+        scanOut.flush();
 
 
     }
