@@ -127,11 +127,11 @@ public class RTPpacket
             //interpret the changing fields of the header:
             PayloadType = header[1] & 127;
             SequenceNumber =
-                    unsigned_int(header[3]) + 256 * unsigned_int(header[2]);
+                    unsignedInt(header[3]) + 256 * unsignedInt(header[2]);
             TimeStamp =
-                    unsigned_int(header[7]) + 256 * unsigned_int(header[6]) +
-                            65536 * unsigned_int(header[5]) +
-                            16777216 * unsigned_int(header[4]);
+                    unsignedInt(header[7]) + 256 * unsignedInt(header[6]) +
+                            65536 * unsignedInt(header[5]) +
+                            16777216 * unsignedInt(header[4]);
         }
     }
 
@@ -212,7 +212,7 @@ public class RTPpacket
     //--------------------------
     //print headers without the SSRC
     //--------------------------
-    public void printheader()
+    public void printHeader()
     {
         for (int i = 0; i < (HEADER_SIZE - 4); i++)
         {
@@ -233,15 +233,16 @@ public class RTPpacket
     }
 
     //return the unsigned value of 8-bit integer nb
-    private static int unsigned_int(int nb)
+    static int unsignedInt(int num)
     {
-        if (nb >= 0)
+        if (num >= 0)
         {
-            return (nb);
+            return (num);
         }
         else
         {
-            return (256 + nb);
+            return (256 + num);
         }
     }
 }
+

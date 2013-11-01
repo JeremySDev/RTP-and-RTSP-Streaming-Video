@@ -18,10 +18,6 @@ public class VideoStream implements VideoInterface
     {
         fileInputStream = new FileInputStream(videoFileName);
         frame = 0;
-
-        /*File file = new File(videoFileName);
-        FileInputStream fileInputStream = new FileInputStream(file);
-        fileInputStream.read();*/
     }
 
     public int getNextFrame(byte[] frame) throws IOException

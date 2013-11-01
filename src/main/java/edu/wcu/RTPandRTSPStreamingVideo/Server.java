@@ -397,7 +397,8 @@ public class Server extends Stream
             //get rid of anything that might have been left over
             responseOne.delete(0, responseOne.length());
             //creating first response
-            responseOne.append(tokens.nextToken() + " " + OKAY + " OK");
+            responseOne.append(tokens.nextToken()).append(" ").append(OKAY)
+                    .append(" OK");
 
             // Parse the SeqNumLine and extract CSeq field
             String SeqNumLine = scanIn.nextLine();
@@ -443,14 +444,14 @@ public class Server extends Stream
     private void sendRtspResponse() throws IOException
     {
         //Send client reply code response
-        scanOut.write(responseOne.toString() + "\n");
+        scanOut.write(responseOne.toString() + CRLF);
 
 
         //Send client sequence response
-        scanOut.write("CSeq: " + getRtspSeqNum() + "\n");
+        scanOut.write("CSeq: " + getRtspSeqNum() + CRLF);
 
         //Send client session response
-        scanOut.write("Session: " + getRtspID() + "\n");
+        scanOut.write("Session: " + getRtspID() + CRLF);
         scanOut.flush();
     }
 }

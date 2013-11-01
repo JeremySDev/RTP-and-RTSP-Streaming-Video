@@ -525,17 +525,17 @@ public class Client extends Stream
             {
                 // Transport: RTP/UDP; client_port= 5000
                 lineThree.append("Transport: RTP/UDP; client_port= " +
-                        rtpReceivePort + "\n");
+                        rtpReceivePort + CRLF);
             }
             else
             {
-                lineThree.append("Session: " + getRtspID() + "\n");
+                lineThree.append("Session: " + getRtspID() + CRLF);
             }
 
-            scanOut.write(lineOne + "\n");
+            scanOut.write(lineOne + CRLF);
             System.out.println("C: " + lineOne);
 
-            scanOut.write(lineTwo + "\n");
+            scanOut.write(lineTwo + CRLF);
             System.out.println("C: " + lineTwo);
 
             scanOut.write(lineThree.toString());
