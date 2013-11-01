@@ -1,6 +1,5 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -11,16 +10,29 @@ import java.io.IOException;
  */
 public class VideoStream implements VideoInterface
 {
+    FileInputStream fileInputStream;
+
+    int frame;
+
     public VideoStream(String videoFileName) throws IOException
     {
-        File file = new File(videoFileName);
-        FileInputStream fileInputStream = new FileInputStream(file);
-        fileInputStream.read();
+        fileInputStream = new FileInputStream(videoFileName);
+        frame = 0;
 
+        /*File file = new File(videoFileName);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        fileInputStream.read();*/
     }
 
-    public int getNextFrame(byte[] buffer)
+    public int getNextFrame(byte[] frame) throws IOException
     {
-        return 0;
+        int length = 0;
+        String length_string;
+        byte[] frame_length = new byte[5];
+
+        fileInputStream.read(frame_length, 0, 5);
+        length_string = new String(frame_length);
+        length = Integer.parseInt(length_string);
+        return(fileInputStream.read(frame, 0, length));
     }
 }
