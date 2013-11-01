@@ -9,14 +9,13 @@ public class Main
     /**
      * main method to run client and server hi cats
      *
-     * @param args
+     * @param args cats
      */
     public static void main(String args[])
     {
         final String[] argumentA = new String[]{"1024"};
         final String[] argumentB =
-                new String[]{"localhost", "1025", argumentA[0],
-                        "/home/jstilwell/Videos/movie.Mjpeg"};
+                new String[]{"localhost", "1025", argumentA[0], "/home/jstilwell/Videos/farL.Mjpeg"};
 
         new Thread(new Runnable()
         {

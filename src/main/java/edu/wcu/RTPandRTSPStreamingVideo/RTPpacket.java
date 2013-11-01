@@ -1,8 +1,6 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
 
-import static java.lang.System.*;
-
 /**
  * RTPpacket handles the creation and use of RTP packets
  *
@@ -57,7 +55,7 @@ public class RTPpacket
         TimeStamp = Time;
         PayloadType = PType;
 
-        //build the header bistream:
+        //build the header bitstream:
         //--------------------------
         header = new byte[HEADER_SIZE];
 
@@ -88,15 +86,12 @@ public class RTPpacket
 
         //fill payload array of byte from data (given in parameter of the
         // constructor)
-        for (int i = 0; i < data_length; i++)
-        {
-            payload[i] = data[i];
-        }
+        System.arraycopy(data, 0, payload, 0, data_length);
 
     }
 
     //--------------------------
-    //Constructor of an RTPpacket object from the packet bistream
+    //Constructor of an RTPpacket object from the packet bitstream
     //--------------------------
     public RTPpacket(byte[] packet, int packet_size)
     {
@@ -113,12 +108,12 @@ public class RTPpacket
         {
             //get the header bitsream:
             header = new byte[HEADER_SIZE];
-            arraycopy(packet, 0, header, 0, HEADER_SIZE);
+            System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
 
             //get the payload bitstream:
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
-            arraycopy(packet, HEADER_SIZE, payload,
+            System.arraycopy(packet, HEADER_SIZE, payload,
                     HEADER_SIZE - HEADER_SIZE, packet_size - HEADER_SIZE);
 
             //interpret the changing fields of the header:
@@ -133,65 +128,65 @@ public class RTPpacket
     }
 
     //--------------------------
-    //getpayload: return the payload bistream of the RTPpacket and its size
+    //getPayload: return the payload bitstream of the RTPpacket and its size
     //--------------------------
-    public int getpayload(byte[] data)
+    public int getPayload(byte[] data)
     {
 
-        arraycopy(payload, 0, data, 0, payload_size);
+        System.arraycopy(payload, 0, data, 0, payload_size);
 
         return (payload_size);
     }
 
     //--------------------------
-    //getpayload_length: return the length of the payload
+    //getPayload_Length: return the length of the payload
     //--------------------------
-    public int getpayload_length()
+    public int getPayload_Length()
     {
         return (payload_size);
     }
 
     //--------------------------
-    //getlength: return the total length of the RTP packet
+    //getLength: return the total length of the RTP packet
     //--------------------------
-    public int getlength()
+    public int getLength()
     {
         return (payload_size + HEADER_SIZE);
     }
 
     //--------------------------
-    //getpacket: returns the packet bitstream and its length
+    //getPacket: returns the packet bitstream and its length
     //--------------------------
-    public int getpacket(byte[] packet)
+    public int getPacket(byte[] packet)
     {
         //construct the packet = header + payload
-        arraycopy(header, 0, packet, 0, HEADER_SIZE);
-        arraycopy(payload, 0, packet, 0 + HEADER_SIZE, payload_size);
+        System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
+        System.arraycopy(payload, 0, packet, 0 + HEADER_SIZE, payload_size);
 
         //return total size of the packet
         return (payload_size + HEADER_SIZE);
     }
 
     //--------------------------
-    //gettimestamp
+    //getTimestamp
     //--------------------------
-    public int gettimestamp()
+    public int getTimestamp()
     {
         return (TimeStamp);
     }
 
     //--------------------------
-    //getsequencenumber
+    //getSequenceNumber
     //--------------------------
-    public int getsequencenumber()
+    public int getSequenceNumber()
     {
         return (SequenceNumber);
     }
 
     //--------------------------
-    //getpayloadtype
+    //getPayloadType
     //--------------------------
-    public int getpayloadtype()
+    public int getPayloadType()
     {
         return (PayloadType);
     }
@@ -208,16 +203,16 @@ public class RTPpacket
             {
                 if (((1 << j) & header[i]) != 0)
                 {
-                    out.print("1");
+                    System.out.print("1");
                 }
                 else
                 {
-                    out.print("0");
+                    System.out.print("0");
                 }
             }
-            out.print(" ");
+            System.out.print(" ");
         }
-        out.println();
+        System.out.println();
     }
 
     //return the unsigned value of 8-bit integer nb

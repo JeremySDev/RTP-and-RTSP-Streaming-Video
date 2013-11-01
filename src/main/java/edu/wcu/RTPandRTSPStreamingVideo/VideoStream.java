@@ -20,24 +20,24 @@ public class VideoStream implements VideoInterface
         frame = 0;
     }
 
+
     public int getNextFrame(byte[] frame) throws IOException
     {
-        int length = 0;
+        int length;
         String length_string;
         byte[] frame_length = new byte[5];
 
+        //read current frame length
         fileInputStream.read(frame_length, 0, 5);
-        length_string = new String(frame_length);
-        System.out.println("Length: " + length_string);
-        if (length_string.equals(""))
-        {
-            System.exit(1);
-        }
-        else
-        {
-            length = Integer.parseInt(length_string);
-        }
 
-        return (fileInputStream.read(frame, 0, length));
+        //transform frame_length to integer
+        length_string = new String(frame_length);
+        length = Integer.parseInt(length_string);
+
+        System.out.println("VS: length:        " + length);
+        System.out.println("VS: length string: " + length_string);
+        //System.out.println("VS: frame length: " + frame_length);
+
+        return(fileInputStream.read(frame, 0, length));
     }
 }

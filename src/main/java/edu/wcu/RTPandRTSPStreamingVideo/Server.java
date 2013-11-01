@@ -304,20 +304,17 @@ public class Server extends Stream
                     if (imageLength > 0)
                     {
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
-                                imageNum,
-                                (imageNum *
-                                        FRAME_PERIOD),
-                                getBuffer(),
-                                imageLength);
+                                imageNum, (imageNum * FRAME_PERIOD),
+                                getBuffer(), imageLength);
 
                         // Get to total length of the full RTP packet to send
-                        int packetLength = rtpPacket.getlength();
+                        int packetLength = rtpPacket.getLength();
                         /* 
                          * Retrieve the packet bitstream and store it in an
                          * array of bytes.
                          */
                         byte[] packetBits = new byte[packetLength];
-                        rtpPacket.getpacket(packetBits);
+                        rtpPacket.getPacket(packetBits);
                         /* 
                          * Send the packet as a DatagramPacket over the UDP
                          * socket.
@@ -446,7 +443,6 @@ public class Server extends Stream
     {
         //Send client reply code response
         scanOut.write(responseOne.toString() + CRLF);
-
 
         //Send client sequence response
         scanOut.write("CSeq: " + getRtspSeqNum() + CRLF);

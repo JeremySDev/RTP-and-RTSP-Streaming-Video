@@ -424,9 +424,9 @@ public class Client extends Stream
                         receivePacket.getLength());
 
                 // Get the payload bitstream from the RTPpacket object
-                int payload_length = rtpPacket.getpayload_length();
+                int payload_length = rtpPacket.getPayload_Length();
                 byte[] payload = new byte[payload_length];
-                rtpPacket.getpayload(payload);
+                rtpPacket.getPayload(payload);
 
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -524,12 +524,12 @@ public class Client extends Stream
             if (requestType.equals("SETUP"))
             {
                 // Transport: RTP/UDP; client_port= 5000
-                lineThree.append("Transport: RTP/UDP; client_port= " +
-                        rtpReceivePort + CRLF);
+                lineThree.append("Transport: RTP/UDP; client_port= ")
+                        .append(rtpReceivePort).append(CRLF);
             }
             else
             {
-                lineThree.append("Session: " + getRtspID() + CRLF);
+                lineThree.append("Session: ").append(getRtspID()).append(CRLF);
             }
 
             scanOut.write(lineOne + CRLF);
