@@ -439,7 +439,7 @@ public class Client extends Stream
             }
             catch (InterruptedIOException iioe)
             {
-                //System.out.println("Nothing to read");
+                System.out.println("Nothing to read");
             }
             catch (IOException ioe)
             {

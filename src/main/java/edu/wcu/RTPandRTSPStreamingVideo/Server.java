@@ -213,6 +213,7 @@ public class Server extends Stream
         boolean done = false;
         while (!done)
         {
+            System.out.println("cats");
             requestType = server.parseRtspRequest(); // blocking call
             if (requestType == Message.SETUP)
             {

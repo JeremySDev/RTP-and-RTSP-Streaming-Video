@@ -22,13 +22,22 @@ public class VideoStream implements VideoInterface
 
     public int getNextFrame(byte[] frame) throws IOException
     {
-        int length;
+        int length = 0;
         String length_string;
         byte[] frame_length = new byte[5];
 
         fileInputStream.read(frame_length, 0, 5);
         length_string = new String(frame_length);
-        length = Integer.parseInt(length_string);
+        System.out.println("Length: " + length_string);
+        if (length_string.equals(""))
+        {
+            System.exit(1);
+        }
+        else
+        {
+            length = Integer.parseInt(length_string);
+        }
+
         return (fileInputStream.read(frame, 0, length));
     }
 }

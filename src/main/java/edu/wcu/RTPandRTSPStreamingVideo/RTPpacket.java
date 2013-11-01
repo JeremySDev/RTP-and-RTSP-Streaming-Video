@@ -1,6 +1,8 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
 
+import static java.lang.System.*;
+
 /**
  * RTPpacket handles the creation and use of RTP packets
  *
@@ -111,18 +113,13 @@ public class RTPpacket
         {
             //get the header bitsream:
             header = new byte[HEADER_SIZE];
-            for (int i = 0; i < HEADER_SIZE; i++)
-            {
-                header[i] = packet[i];
-            }
+            arraycopy(packet, 0, header, 0, HEADER_SIZE);
 
             //get the payload bitstream:
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
-            for (int i = HEADER_SIZE; i < packet_size; i++)
-            {
-                payload[i - HEADER_SIZE] = packet[i];
-            }
+            arraycopy(packet, HEADER_SIZE, payload,
+                    HEADER_SIZE - HEADER_SIZE, packet_size - HEADER_SIZE);
 
             //interpret the changing fields of the header:
             PayloadType = header[1] & 127;
@@ -141,10 +138,7 @@ public class RTPpacket
     public int getpayload(byte[] data)
     {
 
-        for (int i = 0; i < payload_size; i++)
-        {
-            data[i] = payload[i];
-        }
+        arraycopy(payload, 0, data, 0, payload_size);
 
         return (payload_size);
     }
@@ -171,14 +165,8 @@ public class RTPpacket
     public int getpacket(byte[] packet)
     {
         //construct the packet = header + payload
-        for (int i = 0; i < HEADER_SIZE; i++)
-        {
-            packet[i] = header[i];
-        }
-        for (int i = 0; i < payload_size; i++)
-        {
-            packet[i + HEADER_SIZE] = payload[i];
-        }
+        arraycopy(header, 0, packet, 0, HEADER_SIZE);
+        arraycopy(payload, 0, packet, 0 + HEADER_SIZE, payload_size);
 
         //return total size of the packet
         return (payload_size + HEADER_SIZE);
@@ -220,16 +208,16 @@ public class RTPpacket
             {
                 if (((1 << j) & header[i]) != 0)
                 {
-                    System.out.print("1");
+                    out.print("1");
                 }
                 else
                 {
-                    System.out.print("0");
+                    out.print("0");
                 }
             }
-            System.out.print(" ");
+            out.print(" ");
         }
-        System.out.println();
+        out.println();
     }
 
     //return the unsigned value of 8-bit integer nb
