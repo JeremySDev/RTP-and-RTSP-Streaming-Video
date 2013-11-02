@@ -33,6 +33,10 @@ public class RTPpacket
     //Bitstream of the RTP payload
     public byte[] payload;
 
+    /**
+     * Default RTPpacket Constructor that sets up certain fields to their
+     * default values.
+     */
     private RTPpacket()
     {
         //fill by default header fields:
@@ -44,9 +48,15 @@ public class RTPpacket
         Ssrc = 0;
     }
 
-    //--------------------------
-    // Construct an  RTPpacket object from header fields and payload bitstream
-    //--------------------------
+    /**
+     * Construct an  RTPpacket object from header fields and payload bitstream.
+     *
+     * @param pType       the payload type
+     * @param framenb     the frame number
+     * @param time        the time for the timestamp
+     * @param data        a byte array of data
+     * @param data_length the length of data
+     */
     public RTPpacket(int pType, int framenb, int time, byte[] data,
                      int data_length)
     {
@@ -84,9 +94,12 @@ public class RTPpacket
         }
     }
 
-    //--------------------------
-    //Constructor of an RTPpacket object from the packet bitsream
-    //--------------------------
+    /**
+     * Constructor of an RTPpacket object from the packet bitsream
+     *
+     * @param packet a byte array of packet data
+     * @param packet_size the size of the byte array
+     */
     public RTPpacket(byte[] packet, int packet_size)
     {
         //fill default fields:
@@ -95,6 +108,7 @@ public class RTPpacket
         if (packet_size >= HEADER_SIZE)
         {
             header = new byte[HEADER_SIZE];
+
             for (int i = 0; i < HEADER_SIZE; i++)
             {
                 header[i] = packet[i];
@@ -102,6 +116,7 @@ public class RTPpacket
 
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
+
             for (int i = HEADER_SIZE; i < packet_size; i++)
             {
                 payload[i - HEADER_SIZE] = packet[i];
