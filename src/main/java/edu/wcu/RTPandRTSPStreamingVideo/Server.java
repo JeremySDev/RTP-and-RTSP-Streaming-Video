@@ -28,22 +28,23 @@ import javax.swing.JFrame;
 /**
  * Models an RTSP server.
  * usage: java Server <RTSP port>
- *
  * @author Jeremy Stilwell
  * @author Alisha Hayman
- * @author William Kreahling, based on Kurose/Ross
  * @version 10/26/13.
+ *
+ * @author William Kreahling, based on Kurose/Ross
+ * @version October 11, 2013
  */
 public class Server extends Stream {
+
+    // Enumeration for readability
+    private enum Message {
+        SETUP, PLAY, PAUSE, TEARDOWN, INVALID;
+    }
 
     //Helper to build a server response since not all of the information
     //required for this response retrievable by method calls
     private StringBuilder responseOne = new StringBuilder();
-
-    // Enumaration for readability
-    private enum Message {
-        SETUP, PLAY, PAUSE, TEARDOWN, INVALID;
-    }
 
     // Packet:
     /** UDP packet containing the video frames  */
@@ -322,6 +323,7 @@ public class Server extends Stream {
             StringTokenizer tokens = new StringTokenizer(RequestLine);
             requestType = string2Message(tokens.nextToken());
 
+
             if (requestType == Message.SETUP) {
                 //extract VideoFileName from RequestLine
                 setVideoFileName(tokens.nextToken());
@@ -366,11 +368,11 @@ public class Server extends Stream {
 
     /**
      * Send our response to the request!
-     *
      * @throws IOException if something is wrong with the socket.
      */
     private void sendRtspResponse() throws IOException
     {
+        // TODO
         //Send client reply code response
         scanOut.write(responseOne.toString() + CRLF);
 

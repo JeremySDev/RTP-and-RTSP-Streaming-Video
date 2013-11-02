@@ -17,6 +17,7 @@ public class VideoStream implements VideoInterface
         fileInputStream = new FileInputStream(videoFileName);
     }
 
+    @Override
     public int getNextFrame(byte[] frame) throws IOException
     {
         int length;

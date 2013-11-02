@@ -1,6 +1,5 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-
 /**
  * RTPpacket handles the creation and use of RTP packets
  *
@@ -11,9 +10,8 @@ package edu.wcu.RTPandRTSPStreamingVideo;
 //class RTPpacket
 public class RTPpacket
 {
-
     //size of the RTP header:
-    static int HEADER_SIZE = 12;
+    private static int HEADER_SIZE = 12;
 
     //Fields that compose the RTP header
     public int Version;
@@ -31,6 +29,7 @@ public class RTPpacket
 
     //size of the RTP payload
     public int payload_size;
+
     //Bitstream of the RTP payload
     public byte[] payload;
 
@@ -44,27 +43,26 @@ public class RTPpacket
         Marker = 0;
         Ssrc = 0;
     }
+
+
     //--------------------------
-    //Constructor of an RTPpacket object from header fields and payload
-    // bitstream
+    // Construct an  RTPpacket object from header fields and payload bitstream
     //--------------------------
-    public RTPpacket(int PType, int Framenb, int Time, byte[] data,
+    public RTPpacket(int pType, int framenb, int time, byte[] data,
                      int data_length)
     {
+        //fill by default header fields:
         this();
 
         //fill changing header fields:
-        SequenceNumber = Framenb;
-        TimeStamp = Time;
-        PayloadType = PType;
+        SequenceNumber = framenb;
+        TimeStamp = time;
+        PayloadType = pType;
 
         //build the header bitstream:
-        //--------------------------
         header = new byte[HEADER_SIZE];
 
-        //fill the header array of byte with RTP header fields
-        //header[0] = ...
-        // .....
+        //fill the RTP header and payload
         header[0]  = (byte) (Version << 6 | Padding << 5 | Extension << 4 | CC);
         header[1]  = (byte) (Marker << 7 | PayloadType);
         header[2]  = (byte)  (SequenceNumber >> 8);
@@ -78,42 +76,35 @@ public class RTPpacket
         header[10] = (byte) ((Ssrc >> 8)  & 0xFF);
         header[11] = (byte)  (Ssrc        & 0xFF);
 
-        //fill the payload bitstream:
-        //--------------------------
         payload_size = data_length;
         payload = new byte[data_length];
 
-        //fill payload array of byte from data (given in parameter of the
-        // constructor)
         for (int i = 0; i < payload_size; i++) {
             payload[i] = data[i];
         }
     }
 
     //--------------------------
-    //Constructor of an RTPpacket object from the packet bitstream
+    //Constructor of an RTPpacket object from the packet bitsream
     //--------------------------
     public RTPpacket(byte[] packet, int packet_size)
     {
+        //fill default fields:
         this();
 
-        //check if total packet size is lower than the header size
         if (packet_size >= HEADER_SIZE)
         {
-            //get the header bitsream:
             header = new byte[HEADER_SIZE];
             for (int i = 0; i < HEADER_SIZE; i++) {
                 header[i] = packet[i];
             }
 
-            //get the payload bitstream:
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
             for (int i = HEADER_SIZE; i < packet_size; i++) {
                 payload[i - HEADER_SIZE] = packet[i];
             }
 
-            //interpret the changing fields of the header:
             PayloadType = header[1] & 127;
             SequenceNumber =
                     unsignedInt(header[3]) + 256 * unsignedInt(header[2]);
@@ -122,7 +113,14 @@ public class RTPpacket
                             65536 * unsignedInt(header[5]) +
                             16777216 * unsignedInt(header[4]);
         }
+
+        //fill changing header fields:
+
+        //build the header bitstream:
+
+        //fill the RTP header and payload
     }
+
 
     //--------------------------
     //getPayload: return the payload bitstream of the RTPpacket and its size
@@ -168,31 +166,6 @@ public class RTPpacket
     }
 
     //--------------------------
-    //getTimestamp
-    //--------------------------
-    public int getTimestamp()
-    {
-        return (TimeStamp);
-    }
-
-    //--------------------------
-    //getSequenceNumber
-    //--------------------------
-    public int getSequenceNumber()
-    {
-        return (SequenceNumber);
-    }
-
-    //--------------------------
-    //getPayloadType
-    //--------------------------
-    public int getPayloadType()
-    {
-        return (PayloadType);
-    }
-
-
-    //--------------------------
     //print headers without the SSRC
     //--------------------------
     public void printHeader()
@@ -218,6 +191,13 @@ public class RTPpacket
     //return the unsigned value of 8-bit integer nb
     static int unsignedInt(int num)
     {
-        return num >= 0 ? num : 256 + num;
+        if (num >= 0)
+        {
+            return (num);
+        }
+        else
+        {
+            return (256 + num);
+        }
     }
 }
