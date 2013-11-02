@@ -34,13 +34,7 @@ public class RTPpacket
     //Bitstream of the RTP payload
     public byte[] payload;
 
-
-    //--------------------------
-    //Constructor of an RTPpacket object from header fields and payload
-    // bitstream
-    //--------------------------
-    public RTPpacket(int PType, int Framenb, int Time, byte[] data,
-                     int data_length)
+    private RTPpacket()
     {
         //fill by default header fields:
         Version = 2;
@@ -49,6 +43,15 @@ public class RTPpacket
         CC = 0;
         Marker = 0;
         Ssrc = 0;
+    }
+    //--------------------------
+    //Constructor of an RTPpacket object from header fields and payload
+    // bitstream
+    //--------------------------
+    public RTPpacket(int PType, int Framenb, int Time, byte[] data,
+                     int data_length)
+    {
+        this();
 
         //fill changing header fields:
         SequenceNumber = Framenb;
@@ -62,22 +65,18 @@ public class RTPpacket
         //fill the header array of byte with RTP header fields
         //header[0] = ...
         // .....
-        header[0] = (byte) (Version << 6);
-        header[0] = (byte) (header[0] | Padding << 5);
-        header[0] = (byte) (header[0] | Extension << 4);
-        header[0] = (byte) (header[0] | CC);
-        header[1] = (byte) (header[1] | Marker << 7);
-        header[1] = (byte) (header[1] | PayloadType);
-        header[2] = (byte) (SequenceNumber >> 8);
-        header[3] = (byte) (SequenceNumber & 0xFF);
-        header[4] = (byte) (TimeStamp >> 24);
-        header[5] = (byte) (TimeStamp >> 16);
-        header[6] = (byte) (TimeStamp >> 8);
-        header[7] = (byte) (TimeStamp & 0xFF);
-        header[8] = (byte) (Ssrc >> 24);
-        header[9] = (byte) (Ssrc >> 16);
-        header[10] = (byte) (Ssrc >> 8);
-        header[11] = (byte) (Ssrc & 0xFF);
+        header[0]  = (byte) (Version << 6 | Padding << 5 | Extension << 4 | CC);
+        header[1]  = (byte) (Marker << 7 | PayloadType);
+        header[2]  = (byte)  (SequenceNumber >> 8);
+        header[3]  = (byte)  (SequenceNumber & 0xFF);
+        header[4]  = (byte)  (TimeStamp >> 24);
+        header[5]  = (byte) ((TimeStamp >> 16) & 0xFF);
+        header[6]  = (byte) ((TimeStamp >> 8)  & 0xFF);
+        header[7]  = (byte)  (TimeStamp        & 0xFF);
+        header[8]  = (byte)  (Ssrc >> 24);
+        header[9]  = (byte) ((Ssrc >> 16) & 0xFF);
+        header[10] = (byte) ((Ssrc >> 8)  & 0xFF);
+        header[11] = (byte)  (Ssrc        & 0xFF);
 
         //fill the payload bitstream:
         //--------------------------
@@ -86,8 +85,9 @@ public class RTPpacket
 
         //fill payload array of byte from data (given in parameter of the
         // constructor)
-        System.arraycopy(data, 0, payload, 0, data_length);
-
+        for (int i = 0; i < payload_size; i++) {
+            payload[i] = data[i];
+        }
     }
 
     //--------------------------
@@ -95,26 +95,23 @@ public class RTPpacket
     //--------------------------
     public RTPpacket(byte[] packet, int packet_size)
     {
-        //fill default fields:
-        Version = 2;
-        Padding = 0;
-        Extension = 0;
-        CC = 0;
-        Marker = 0;
-        Ssrc = 0;
+        this();
 
         //check if total packet size is lower than the header size
         if (packet_size >= HEADER_SIZE)
         {
             //get the header bitsream:
             header = new byte[HEADER_SIZE];
-            System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
+            for (int i = 0; i < HEADER_SIZE; i++) {
+                header[i] = packet[i];
+            }
 
             //get the payload bitstream:
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
-            System.arraycopy(packet, HEADER_SIZE, payload,
-                    HEADER_SIZE - HEADER_SIZE, packet_size - HEADER_SIZE);
+            for (int i = HEADER_SIZE; i < packet_size; i++) {
+                payload[i - HEADER_SIZE] = packet[i];
+            }
 
             //interpret the changing fields of the header:
             PayloadType = header[1] & 127;
@@ -132,9 +129,9 @@ public class RTPpacket
     //--------------------------
     public int getPayload(byte[] data)
     {
-
-        System.arraycopy(payload, 0, data, 0, payload_size);
-
+        for (int i = 0; i < payload_size; i++) {
+            data[i] = payload[i];
+        }
         return (payload_size);
     }
 
@@ -160,9 +157,12 @@ public class RTPpacket
     public int getPacket(byte[] packet)
     {
         //construct the packet = header + payload
-        System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
-        System.arraycopy(payload, 0, packet, 0 + HEADER_SIZE, payload_size);
-
+        for (int i = 0; i < HEADER_SIZE; i++) {
+            packet[i] = header[i];
+        }
+        for (int i = 0; i < payload_size; i++) {
+            packet[i] = payload[i];
+        }
         //return total size of the packet
         return (payload_size + HEADER_SIZE);
     }
@@ -218,14 +218,6 @@ public class RTPpacket
     //return the unsigned value of 8-bit integer nb
     static int unsignedInt(int num)
     {
-        if (num >= 0)
-        {
-            return (num);
-        }
-        else
-        {
-            return (256 + num);
-        }
+        return num >= 0 ? num : 256 + num;
     }
 }
-

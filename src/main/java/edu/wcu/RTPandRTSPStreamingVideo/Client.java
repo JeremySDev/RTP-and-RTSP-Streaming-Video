@@ -122,11 +122,11 @@ public class Client extends Stream
     /**
      * Default RTP port
      */
-    public final static int RTP_PORT = 25000;
+    public final static int RTP_PORT = 1025;
     /**
      * Default RTSP port
      */
-    public final static int RTSP_PORT = 9999;
+    public final static int RTSP_PORT = 1024;
 
     private int numberTimesRun = 0;
 
@@ -312,15 +312,37 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            try
+            if (isInitState())
             {
-                sendRtspRequest("SETUP");
-                parseServerResponse();
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
+                // Init non-blocking RTP socket that will be used to receive
+                // data
+                try
+                {
+                    sendRtspRequest("SETUP");
+                    // construct a new DatagramSocket to receive RTP packets
+                    // from the server, on port RTP_RCV_PORT
+                    setRtpSocket(new DatagramSocket(RTP_PORT));
+
+                    // set TimeOut value of the socket to 5msec.
+                    getRtpSocket().setSoTimeout(100);
+
+                }
+                catch (IOException ioe)
+                {
+                    System.out.println("Socket exception: " + ioe);
+                }
+
+                // Wait for the response
+                if (parseServerResponse() != OKAY)
+                {
+                    System.out.println("Invalid Server Response");
+                }
+                else
+                {
+                    // change RTSP state and print new state
+                    setReadyState();
+                }
+            }// else if state != INIT then do nothing
         }
     }
 
@@ -337,15 +359,31 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            try
+            if (isReadyState())
             {
-                sendRtspRequest("PLAY");
-                parseServerResponse();
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
+                // Send PLAY message to the server
+                try
+                {
+                    sendRtspRequest("PLAY");
+                }
+                catch (IOException ioe)
+                {
+                    System.out.println(ioe.getMessage());
+                }
+
+                // Wait for the response
+                if (parseServerResponse() != OKAY)
+                {
+                    System.out.println("Invalid Server Response");
+                }
+                else
+                {
+                    // change RTSP state and print out new state
+                    setPlayState();
+                    // start the timer
+                    startTimer();
+                }
+            }// else if state != READY then do nothing
         }
     }
 
@@ -362,15 +400,31 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-            try
+            if (isPlayState())
             {
-                sendRtspRequest("PAUSE");
-                parseServerResponse();
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-            }
+                // Send PAUSE message to the server
+                try
+                {
+                    sendRtspRequest("PAUSE");
+                }
+                catch (IOException ioe)
+                {
+                    System.out.println(ioe.getMessage());
+                }
+
+                // Wait for the response
+                if (parseServerResponse() != OKAY)
+                {
+                    System.out.println("Invalid Server Response");
+                }
+                else
+                {
+                    // change RTSP state and print out new state
+                    setReadyState();
+                    // stop the timer
+                    stopTimer();
+                }
+            }// else if state != PLAYING then do nothing
         }
     }
 
@@ -391,13 +445,28 @@ public class Client extends Stream
             try
             {
                 sendRtspRequest("TEARDOWN");
-                parseServerResponse();
             }
             catch (IOException ioe)
             {
                 ioe.printStackTrace();
             }
-            System.exit(0);
+
+            // Wait for the response
+            if (parseServerResponse() != OKAY)
+            {
+                System.out.println("Invalid Server Response");
+            }
+            else
+            {
+                // change RTSP state and print out new state
+                setInitState();
+
+                // stop the timer
+                stopTimer();
+
+                // exit
+                System.exit(0);
+            }
         }
     }
 
@@ -430,8 +499,7 @@ public class Client extends Stream
 
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image = toolkit.createImage(payload, 0,
-                        payload_length);
+                Image image = toolkit.createImage(payload, 0, payload_length);
 
                 // Display the image as an ImageIcon object
                 icon = new ImageIcon(image);
@@ -440,11 +508,16 @@ public class Client extends Stream
             catch (InterruptedIOException iioe)
             {
                 System.out.println("Nothing to read");
+                System.out.println("Message: " + iioe.getMessage());
+                System.out.println(
+                        "localized message: " + iioe.getLocalizedMessage());
+                System.out.println("Stacktrace");
+                iioe.printStackTrace();
+                System.exit(4);
             }
             catch (IOException ioe)
             {
-                System.out.println("IOException caught: " + ioe
-                        .getMessage());
+                System.out.println("IOException caught: " + ioe.getMessage());
             }
         }
     }

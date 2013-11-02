@@ -15,7 +15,7 @@ public class Main
     {
         final String[] argumentA = new String[]{"1024"};
         final String[] argumentB =
-                new String[]{"localhost", "1025", argumentA[0], "/home/jstilwell/Videos/farL.Mjpeg"};
+                new String[]{"localhost", "1025", argumentA[0], "/home/jstilwell/Videos/movie.Mjpeg"};
 
         new Thread(new Runnable()
         {

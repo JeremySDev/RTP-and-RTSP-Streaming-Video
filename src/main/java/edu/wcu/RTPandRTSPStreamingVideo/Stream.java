@@ -68,7 +68,6 @@ public class Stream
      */
     private int rtspID;
 
-
     /**
      * Constant for Carriage Return Line Feed
      */
