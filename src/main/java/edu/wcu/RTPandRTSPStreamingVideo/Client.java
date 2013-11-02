@@ -38,8 +38,6 @@ import javax.swing.Timer;
  *
  * @author Jeremy Stilwell
  * @author Alisha Hayman
- * @version 10/26/13.
- *
  * @author William Kreahling, based on code from Kurose/Ross
  * @version October 11, 2013
  */
@@ -87,11 +85,17 @@ public class Client extends Stream
     private ImageIcon icon;
 
 
-    /** UDP packet received from the server */
+    /**
+     * UDP packet received from the server
+     */
     private DatagramPacket receivePacket;
-    /** Receive port for the RTP packets */
+    /**
+     * Receive port for the RTP packets
+     */
     private final int rtpReceivePort;
-    /** Input stream */
+    /**
+     * Input stream
+     */
     private Scanner scanIn;
     /**
      * Output stream
@@ -118,12 +122,15 @@ public class Client extends Stream
      * Default RTP port
      */
     public final static int RTP_PORT = 25000;
-    /** Default RTSP port                           */
+    /**
+     * Default RTSP port
+     */
     public final static int RTSP_PORT = 9999;
 
 
     /**
      * constructor.
+     *
      * @param args Hostname running the RTP server
      * @param args RTP receive port!
      * @param args Server port!
@@ -136,7 +143,9 @@ public class Client extends Stream
         try
         {
             value = Integer.parseInt(args[1]);
-        } catch (NumberFormatException nfe) {
+        }
+        catch (NumberFormatException nfe)
+        {
             System.out.println("RTP port argument invalid " + nfe.getMessage());
             System.out.println("RTP port defaulting to " + value);
         }
@@ -144,17 +153,23 @@ public class Client extends Stream
         int rtspServerPort = RTSP_PORT;
 
         // Get server hostname
-        String serverHost           = args[0];
+        String serverHost = args[0];
         // Get video filename to request:
         if (args.length == 4)
+        {
             setVideoFileName(args[3]);
+        }
         else
+        {
             setVideoFileName(args[2]);
+        }
 
         try
         {
             rtspServerPort = Integer.parseInt(args[2]);
-        } catch (NumberFormatException nfe) {
+        }
+        catch (NumberFormatException nfe)
+        {
             System.out.println("RTSP port argument invalid " +
                     nfe.getMessage());
             System.out.println("RTSP Port defaulting to " + RTSP_PORT);
@@ -168,7 +183,7 @@ public class Client extends Stream
         scanIn = new Scanner(new
                 InputStreamReader(getRtspSocket().getInputStream()));
         scanOut = new BufferedWriter(new
-                OutputStreamWriter(getRtspSocket().getOutputStream()) );
+                OutputStreamWriter(getRtspSocket().getOutputStream()));
 
         initTimer(20, new timerListener()); // small timeout
     }
@@ -176,10 +191,11 @@ public class Client extends Stream
     /**
      * Create the client User Interface. Its pretty sweet (not).
      */
-    private void createUI() {
-        frame       = new JFrame ("Client");
+    private void createUI()
+    {
+        frame = new JFrame("Client");
         setupButton = new JButton("Setup");
-        playButton  = new JButton("Play");
+        playButton = new JButton("Play");
         pauseButton = new JButton("Pause");
         tearButton = new JButton("Teardown");
         mainPanel = new JPanel();
@@ -188,21 +204,22 @@ public class Client extends Stream
         // Create a new Frame
         frame.addWindowListener(new WindowAdapter()
         {
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e)
+            {
                 System.exit(0);
             }
         });
 
         // Create and add all the shiney buttons
-        buttonPanel.setLayout(new GridLayout(1,0));
+        buttonPanel.setLayout(new GridLayout(1, 0));
         buttonPanel.add(setupButton);
         buttonPanel.add(playButton);
         buttonPanel.add(pauseButton);
         buttonPanel.add(tearButton);
         setupButton.addActionListener(new setupButtonListener());
-        playButton.addActionListener (new playButtonListener());
+        playButton.addActionListener(new playButtonListener());
         pauseButton.addActionListener(new pauseButtonListener());
-        tearButton.addActionListener (new tearButtonListener());
+        tearButton.addActionListener(new tearButtonListener());
 
         // Image display label
         iconLabel.setIcon(null);
@@ -234,7 +251,8 @@ public class Client extends Stream
     /**
      * Prints out a usage message and exits. The end!
      */
-    public static void printUsageAndExit() {
+    public static void printUsageAndExit()
+    {
         // This is static because sometimes we need to check command line
         // arguments BEFORE we create a client object!
         System.out.println("Client <host> <rtpPort> [<port>] <videoFile>");
@@ -243,6 +261,7 @@ public class Client extends Stream
 
     /**
      * Starting point of the program.
+     *
      * @param args Hostname running the RTP server
      * @param args RTP receive port!
      * @param args Server port!
@@ -252,7 +271,8 @@ public class Client extends Stream
     {
 
         // Check for number of args.
-        if (args.length < 3 || args.length > 4) {
+        if (args.length < 3 || args.length > 4)
+        {
             Client.printUsageAndExit();
         }
 
@@ -260,10 +280,14 @@ public class Client extends Stream
         try
         {
             client = new Client(args);
-        } catch (UnknownHostException uhe) {
+        }
+        catch (UnknownHostException uhe)
+        {
             System.out.println(uhe.getMessage());
             System.exit(2);
-        } catch (IOException ioe) {
+        }
+        catch (IOException ioe)
+        {
             System.out.println(ioe.getMessage());
             System.exit(3);
         }
@@ -276,12 +300,15 @@ public class Client extends Stream
     /**
      * Handler for the 'setup' button.
      */
-    class setupButtonListener implements ActionListener{
+    class setupButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
+         *
          * @param e the event that started this whole mess!
          */
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e)
+        {
             // TODO
             if (isInitState())
             {
@@ -321,12 +348,15 @@ public class Client extends Stream
     /**
      * Handler for Play Button
      */
-    class playButtonListener implements ActionListener {
+    class playButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
+         *
          * @param e the event that started this whole mess!
          */
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)
+        {
             // TODO
             if (isReadyState())
             {
@@ -352,12 +382,15 @@ public class Client extends Stream
     /**
      * Handler for Pause Button
      */
-    class pauseButtonListener implements ActionListener {
+    class pauseButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
+         *
          * @param e the event that started this whole mess!
          */
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e)
+        {
 
             // TODO
             if (isPlayState())
@@ -381,13 +414,14 @@ public class Client extends Stream
         }
     }
 
-
     /**
      * Handler for Teardown Button
      */
-    class tearButtonListener implements ActionListener {
+    class tearButtonListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
+         *
          * @param e the event that started this whole mess!
          */
         public void actionPerformed(ActionEvent e)
@@ -416,20 +450,23 @@ public class Client extends Stream
     }
 
 
-
     /**
      * Handler for the Timer. Gets RTP packets and displays them in the UI.
      */
-    class timerListener implements ActionListener {
+    class timerListener implements ActionListener
+    {
         /**
          * Perform an action when an event occurs!
+         *
          * @param e the event that started this whole mess!
          */
-        public void actionPerformed(ActionEvent e) {
+        public void actionPerformed(ActionEvent e)
+        {
 
             //Construct a DatagramPacket to receive data from the UDP socket
             receivePacket = getDgPacket();
-            try{
+            try
+            {
 
                 //TODO this is currently the bug
                 getRtpSocket().receive(receivePacket);
@@ -440,7 +477,7 @@ public class Client extends Stream
 
                 // Get the payload bitstream from the RTPpacket object
                 int payload_length = rtpPacket.getPayload_Length();
-                byte [] payload = new byte[payload_length];
+                byte[] payload = new byte[payload_length];
                 rtpPacket.getPayload(payload);
 
                 // Get an Image object from the payload bitstream
@@ -450,10 +487,14 @@ public class Client extends Stream
                 // Display the image as an ImageIcon object
                 icon = new ImageIcon(image);
                 iconLabel.setIcon(icon);
-            } catch (InterruptedIOException iioe){
+            }
+            catch (InterruptedIOException iioe)
+            {
                 System.out.println("Nothing to read");
                 iioe.printStackTrace();
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe)
+            {
                 System.out.println("IOException caught: " + ioe.getMessage());
             }
         }
@@ -462,10 +503,12 @@ public class Client extends Stream
     /**
      * Parse Server Response.
      */
-    private int parseServerResponse() {
+    private int parseServerResponse()
+    {
         int reply_code = 0;
 
-        try {
+        try
+        {
             // Parse status line and extract the reply_code:
             String StatusLine = scanIn.nextLine();
             System.out.println("S: " + StatusLine);
@@ -475,7 +518,8 @@ public class Client extends Stream
             reply_code = Integer.parseInt(tokens.nextToken());
 
             // If reply code is OK get and print the 2 other lines
-            if (reply_code == Stream.OKAY) {
+            if (reply_code == Stream.OKAY)
+            {
                 String SeqNumLine = scanIn.nextLine();
                 System.out.println("S: " + SeqNumLine);
 
@@ -489,20 +533,23 @@ public class Client extends Stream
             }
         }
         catch (IllegalStateException | NumberFormatException |
-                NoSuchElementException ex) {
+                NoSuchElementException ex)
+        {
             System.out.println("Error Parsing the server response: " +
                     ex.getMessage());
             System.exit(5);
         }
-        return(reply_code);
+        return (reply_code);
     }
 
 
     /**
      * Write a request to the RTSP socket.
+     *
      * @param requestType the type of request we are making.
      */
-    private void sendRtspRequest(String requestType) {
+    private void sendRtspRequest(String requestType)
+    {
         numberTimesRun++;
         try
         {

@@ -44,7 +44,6 @@ public class RTPpacket
         Ssrc = 0;
     }
 
-
     //--------------------------
     // Construct an  RTPpacket object from header fields and payload bitstream
     //--------------------------
@@ -63,23 +62,24 @@ public class RTPpacket
         header = new byte[HEADER_SIZE];
 
         //fill the RTP header and payload
-        header[0]  = (byte) (Version << 6 | Padding << 5 | Extension << 4 | CC);
-        header[1]  = (byte) (Marker << 7 | PayloadType);
-        header[2]  = (byte)  (SequenceNumber >> 8);
-        header[3]  = (byte)  (SequenceNumber & 0xFF);
-        header[4]  = (byte)  (TimeStamp >> 24);
-        header[5]  = (byte) ((TimeStamp >> 16) & 0xFF);
-        header[6]  = (byte) ((TimeStamp >> 8)  & 0xFF);
-        header[7]  = (byte)  (TimeStamp        & 0xFF);
-        header[8]  = (byte)  (Ssrc >> 24);
-        header[9]  = (byte) ((Ssrc >> 16) & 0xFF);
-        header[10] = (byte) ((Ssrc >> 8)  & 0xFF);
-        header[11] = (byte)  (Ssrc        & 0xFF);
+        header[0] = (byte) (Version << 6 | Padding << 5 | Extension << 4 | CC);
+        header[1] = (byte) (Marker << 7 | PayloadType);
+        header[2] = (byte) (SequenceNumber >> 8);
+        header[3] = (byte) (SequenceNumber & 0xFF);
+        header[4] = (byte) (TimeStamp >> 24);
+        header[5] = (byte) ((TimeStamp >> 16) & 0xFF);
+        header[6] = (byte) ((TimeStamp >> 8) & 0xFF);
+        header[7] = (byte) (TimeStamp & 0xFF);
+        header[8] = (byte) (Ssrc >> 24);
+        header[9] = (byte) ((Ssrc >> 16) & 0xFF);
+        header[10] = (byte) ((Ssrc >> 8) & 0xFF);
+        header[11] = (byte) (Ssrc & 0xFF);
 
         payload_size = data_length;
         payload = new byte[data_length];
 
-        for (int i = 0; i < payload_size; i++) {
+        for (int i = 0; i < payload_size; i++)
+        {
             payload[i] = data[i];
         }
     }
@@ -95,13 +95,15 @@ public class RTPpacket
         if (packet_size >= HEADER_SIZE)
         {
             header = new byte[HEADER_SIZE];
-            for (int i = 0; i < HEADER_SIZE; i++) {
+            for (int i = 0; i < HEADER_SIZE; i++)
+            {
                 header[i] = packet[i];
             }
 
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
-            for (int i = HEADER_SIZE; i < packet_size; i++) {
+            for (int i = HEADER_SIZE; i < packet_size; i++)
+            {
                 payload[i - HEADER_SIZE] = packet[i];
             }
 
@@ -127,7 +129,8 @@ public class RTPpacket
     //--------------------------
     public int getPayload(byte[] data)
     {
-        for (int i = 0; i < payload_size; i++) {
+        for (int i = 0; i < payload_size; i++)
+        {
             data[i] = payload[i];
         }
         return (payload_size);
@@ -155,10 +158,12 @@ public class RTPpacket
     public int getPacket(byte[] packet)
     {
         //construct the packet = header + payload
-        for (int i = 0; i < HEADER_SIZE; i++) {
+        for (int i = 0; i < HEADER_SIZE; i++)
+        {
             packet[i] = header[i];
         }
-        for (int i = 0; i < payload_size; i++) {
+        for (int i = 0; i < payload_size; i++)
+        {
             packet[i] = payload[i];
         }
         //return total size of the packet
