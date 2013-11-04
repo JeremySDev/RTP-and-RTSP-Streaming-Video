@@ -1,5 +1,7 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
+import sun.security.util.Length;
+
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -309,7 +311,6 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO
             if (isInitState())
             {
                 // Init non-blocking RTP socket that will be used to receive
@@ -357,7 +358,6 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO
             if (isReadyState())
             {
                 // Send PLAY message to the server
@@ -391,8 +391,6 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-
-            // TODO
             if (isPlayState())
             {
                 // Send PAUSE message to the server
@@ -426,8 +424,6 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-
-            // TODO: Teardown request!!
             sendRtspRequest("TEARDOWN");
 
             // Wait for the response
@@ -465,7 +461,6 @@ public class Client extends Stream
 
             //Construct a DatagramPacket to receive data from the UDP socket
             receivePacket = getDgPacket();
-            //System.out.println("data: " + receivePacket.getData());
             try
             {
                 //TODO this is currently the bug
@@ -474,6 +469,8 @@ public class Client extends Stream
                 //create an RTPpacket object from the Datagram packet.
                 RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
                         receivePacket.getLength());
+
+                rtpPacket.printHeader();
 
                 // Get the payload bitstream from the RTPpacket object
                 int payload_length = rtpPacket.getPayload_Length();
@@ -512,7 +509,7 @@ public class Client extends Stream
         {
             // Parse status line and extract the reply_code:
             String StatusLine = scanIn.nextLine();
-            System.out.println("S: " + StatusLine);
+            //TODO turn on System.out.println("S: " + StatusLine);
 
             StringTokenizer tokens = new StringTokenizer(StatusLine);
             tokens.nextToken(); //skip over the RTSP version number
@@ -522,10 +519,10 @@ public class Client extends Stream
             if (reply_code == Stream.OKAY)
             {
                 String SeqNumLine = scanIn.nextLine();
-                System.out.println("S: " + SeqNumLine);
+                //TODO turn on System.out.println("S: " + SeqNumLine);
 
                 String SessionLine = scanIn.nextLine();
-                System.out.println("S: " + SessionLine + CRLF);
+                //TODO turn on System.out.println("S: " + SessionLine + CRLF);
 
                 // If state == State.INIT get the Session Id from SessionLine
                 tokens = new StringTokenizer(SessionLine);
@@ -584,13 +581,13 @@ public class Client extends Stream
             }
 
             scanOut.write(lineOne + CRLF);
-            System.out.println("C: " + lineOne);
+            //TODO turn on System.out.println("C: " + lineOne);
 
             scanOut.write(lineTwo + CRLF);
-            System.out.println("C: " + lineTwo);
+            //TODO turn on System.out.println("C: " + lineTwo);
 
             scanOut.write(lineThree.toString());
-            System.out.println("C: " + lineThree.toString());
+            //TODO turn on System.out.println("C: " + lineThree.toString());
 
             scanOut.flush();
         }
