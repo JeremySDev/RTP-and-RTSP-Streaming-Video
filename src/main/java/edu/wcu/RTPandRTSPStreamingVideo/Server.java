@@ -247,11 +247,10 @@ public class Server extends Stream {
                     // Build an RTPpacket object containing the frame
                     if (imageLength > 0) {
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
-                                imageNum,
-                                (imageNum *
-                                        FRAME_PERIOD),
-                                getBuffer(),
-                                imageLength);
+                                imageNum, (imageNum * FRAME_PERIOD),
+                                getBuffer(), imageLength);
+
+                        rtpPacket.printHeader();
 
                         // Get to total length of the full RTP packet to send
                         int packetLength = rtpPacket.getLength();
@@ -265,8 +264,19 @@ public class Server extends Stream {
                          * Send the packet as a DatagramPacket over the UDP
                          * socket.
                          */
+                        for (int i = 0; i < packetLength; i++)
+                        {
+                            //System.out.print(" S: " + packetBits[i]);
+                        }
+                        //System.out.println("\n" + " S: " + packetLength);
+                        //System.out.println("  S: ClientIPAddr: " +
+                        // ClientIPAddr);
+                        //System.out.println("  S: rtpDestPort: " +
+                        // rtpDestPort);
+
                         senddp = new DatagramPacket(packetBits, packetLength,
                                 ClientIPAddr, rtpDestPort);
+                        System.out.println("data: " + senddp.getData());
                         getRtpSocket().send(senddp);
 
                         // update UI

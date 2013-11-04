@@ -319,10 +319,10 @@ public class Client extends Stream
                     sendRtspRequest("SETUP");
                     // construct a new DatagramSocket to receive RTP packets
                     // from the server, on port RTP_RCV_PORT
-                    setRtpSocket(new DatagramSocket(RTP_PORT));
+                    setRtpSocket(new DatagramSocket(rtpReceivePort));
 
                     // set TimeOut value of the socket to 5msec.
-                    getRtpSocket().setSoTimeout(5);
+                    getRtpSocket().setSoTimeout(3000);
 
                 }
                 catch (IOException ioe)
@@ -465,9 +465,9 @@ public class Client extends Stream
 
             //Construct a DatagramPacket to receive data from the UDP socket
             receivePacket = getDgPacket();
+            //System.out.println("data: " + receivePacket.getData());
             try
             {
-
                 //TODO this is currently the bug
                 getRtpSocket().receive(receivePacket);
 
@@ -491,7 +491,8 @@ public class Client extends Stream
             catch (InterruptedIOException iioe)
             {
                 System.out.println("Nothing to read");
-                iioe.printStackTrace();
+                //iioe.printStackTrace();
+                //System.exit(4);
             }
             catch (IOException ioe)
             {
