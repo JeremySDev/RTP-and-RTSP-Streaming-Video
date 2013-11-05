@@ -311,7 +311,7 @@ public class Server extends Stream
                                 imageNum, (imageNum * FRAME_PERIOD),
                                 getBuffer(), imageLength);
 
-                        rtpPacket.printHeader();
+                        //rtpPacket.printHeader();
 
                         // Get to total length of the full RTP packet to send
                         int packetLength = rtpPacket.getLength();
@@ -327,6 +327,14 @@ public class Server extends Stream
                          */
                         senddp = new DatagramPacket(packetBits, packetLength,
                                 ClientIPAddr, rtpDestPort);
+                       /* byte[] data = senddp.getData();
+                        for (int i = 0; i < packetBits.length; i++)
+                        {
+                            System.out.print(packetBits[i] + ", ");
+                        }*/
+                        rtpPacket.printHeader();
+                        //System.out.println("senddp.getLength(): " + senddp
+                        // .getLength());
                         getRtpSocket().send(senddp);
 
                         // update UI

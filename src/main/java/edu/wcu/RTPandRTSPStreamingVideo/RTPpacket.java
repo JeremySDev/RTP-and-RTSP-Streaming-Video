@@ -88,21 +88,13 @@ public class RTPpacket
             header[11 - i] = (byte) (Ssrc >> (8 * i));
         }
 
-        //header[4] = (byte) (TimeStamp >> 24);
-        //header[5] = (byte) ((TimeStamp >> 16) & 0xFF);
-        //header[6] = (byte) ((TimeStamp >> 8) & 0xFF);
-        //header[7] = (byte) (TimeStamp & 0xFF);
-        //header[8] = (byte) (Ssrc >> 24);
-        //header[9] = (byte) ((Ssrc >> 16) & 0xFF);
-        //header[10] = (byte) ((Ssrc >> 8) & 0xFF);
-        //header[11] = (byte) (Ssrc & 0xFF);
-
         payload_size = data_length;
         payload = new byte[data_length];
 
         for (int i = 0; i < payload_size; i++)
         {
             payload[i] = data[i];
+
         }
     }
 
@@ -121,6 +113,7 @@ public class RTPpacket
         {
             header = new byte[HEADER_SIZE];
 
+            /* copying over the header data */
             for (int i = 0; i < HEADER_SIZE; i++)
             {
                 header[i] = packet[i];
@@ -129,18 +122,20 @@ public class RTPpacket
             payload_size = packet_size - HEADER_SIZE;
             payload = new byte[payload_size];
 
+            /* copying over the payload */
             for (int i = HEADER_SIZE; i < packet_size; i++)
             {
                 payload[i - HEADER_SIZE] = packet[i];
             }
 
             PayloadType = header[1] & 127;
+
             SequenceNumber =
                     unsignedInt(header[3]) + 256 * unsignedInt(header[2]);
-            TimeStamp =
-                    unsignedInt(header[7]) + 256 * unsignedInt(header[6]) +
-                            65536 * unsignedInt(header[5]) +
-                            16777216 * unsignedInt(header[4]);
+
+            TimeStamp = unsignedInt(header[7]) + 256 * unsignedInt(header[6]) +
+                    65536 * unsignedInt(header[5]) +
+                    16777216 * unsignedInt(header[4]);
         }
 
         //fill changing header fields:
@@ -189,7 +184,7 @@ public class RTPpacket
         {
             packet[i] = header[i];
         }
-        for (int i = 0; i < payload_size; i++)
+        for (int i = HEADER_SIZE; i < payload_size; i++)
         {
             packet[i] = payload[i];
         }

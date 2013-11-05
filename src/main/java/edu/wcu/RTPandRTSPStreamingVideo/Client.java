@@ -465,17 +465,16 @@ public class Client extends Stream
             {
                 //TODO this is currently the bug
                 getRtpSocket().receive(receivePacket);
-
                 //create an RTPpacket object from the Datagram packet.
                 RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
                         receivePacket.getLength());
-
                 rtpPacket.printHeader();
 
                 // Get the payload bitstream from the RTPpacket object
                 int payload_length = rtpPacket.getPayload_Length();
                 byte[] payload = new byte[payload_length];
-                rtpPacket.getPayload(payload);
+                System.out.println("num: " + rtpPacket.getPacket(payload));
+
 
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
