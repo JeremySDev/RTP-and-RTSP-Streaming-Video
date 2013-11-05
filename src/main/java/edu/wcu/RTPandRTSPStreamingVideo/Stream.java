@@ -20,10 +20,6 @@ import javax.swing.Timer;
 
 /**
  * Base class for our Client and Server!
- *
- * @author Jeremy Stilwell
- * @author Alisha Hayman
- * @version 10/26/13.
  */
 public class Stream
 {
@@ -67,6 +63,7 @@ public class Stream
      * ID of the RTSP session (given by the RTSP Server)
      */
     private int rtspID;
+
 
     /**
      * Constant for Carriage Return Line Feed
@@ -118,7 +115,7 @@ public class Stream
     /**
      * Assign the name of the videofile we are streaming.
      *
-     * @param name video file name.
+     * @name video file name.
      */
     public void setVideoFileName(String name)
     {
@@ -128,7 +125,6 @@ public class Stream
     /**
      * Get the storage buffer.
      *
-     * @return an array of bytes for holding frame data.
      */
     public byte[] getBuffer()
     {
@@ -262,7 +258,7 @@ public class Stream
     /**
      * Create the timer and set initial values.
      *
-     * @param period   timer interval.
+     * @param period  timer interval.
      * @param listener a listener to attach to the timer.
      */
     public void initTimer(int period, ActionListener listener)
@@ -347,6 +343,6 @@ public class Stream
      */
     private enum State
     {
-        INIT, READY, PLAYING
+        INIT, READY, PLAYING;
     }
 }

@@ -1,5 +1,7 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
+import edu.wcu.RTPandRTSPStreamingVideo.VideoStream;
+
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -29,8 +31,6 @@ import javax.swing.JFrame;
  * Models an RTSP server.
  * usage: java Server <RTSP port>
  *
- * @author Jeremy Stilwell
- * @author Alisha Hayman
  * @author William Kreahling, based on Kurose/Ross
  * @version October 11, 2013
  */
@@ -189,7 +189,7 @@ public class Server extends Stream
     /**
      * Entry point into the program. Whee
      *
-     * @param args the port number for this server. cats
+     * @param args the port number for this server.
      */
     public static void main(String args[])
     {
@@ -304,32 +304,30 @@ public class Server extends Stream
                      */
                     imageLength = video.getNextFrame(getBuffer());
 
-
                     // Build an RTPpacket object containing the frame
                     if (imageLength > 0)
                     {
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
-                                imageNum, (imageNum * FRAME_PERIOD),
-                                getBuffer(), imageLength);
-
-                        //rtpPacket.printHeader();
+                                imageNum,
+                                (imageNum *
+                                        FRAME_PERIOD),
+                                getBuffer(),
+                                imageLength);
 
                         // Get to total length of the full RTP packet to send
                         int packetLength = rtpPacket.getLength();
-                        /*
+                        /* 
                          * Retrieve the packet bitstream and store it in an
                          * array of bytes.
                          */
                         byte[] packetBits = new byte[packetLength];
                         rtpPacket.getPacket(packetBits);
-                        /*
+                        /* 
                          * Send the packet as a DatagramPacket over the UDP
                          * socket.
                          */
                         senddp = new DatagramPacket(packetBits, packetLength,
                                 ClientIPAddr, rtpDestPort);
-
-                        rtpPacket.printHeader();
                         getRtpSocket().send(senddp);
 
                         // update UI

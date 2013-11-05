@@ -38,10 +38,10 @@ public class VideoStream implements VideoInterface
     {
         int length = 0;
         String lengthString;
-        byte[] frameLength = new byte[5];
+        byte[] frameLength = new byte[HEADER];
 
         // read current frameLength
-        fileInputStream.read(frameLength, 0, 5);
+        fileInputStream.read(frameLength, 0, HEADER);
 
         // transform frameLength to integer
         lengthString = new String(frameLength);

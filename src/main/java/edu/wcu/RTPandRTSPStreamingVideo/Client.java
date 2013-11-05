@@ -1,6 +1,7 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-import sun.security.util.Length;
+import edu.wcu.RTPandRTSPStreamingVideo.RTPpacket;
+import edu.wcu.RTPandRTSPStreamingVideo.Stream;
 
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
@@ -38,15 +39,13 @@ import javax.swing.Timer;
 /**
  * Client to play a movie stream from an RTSP server.
  *
- * @author Jeremy Stilwell
- * @author Alisha Hayman
  * @author William Kreahling, based on code from Kurose/Ross
  * @version October 11, 2013
  */
 public class Client extends Stream
 {
 
-    int numberTimesRun = 0;
+    private int numberTimesRun = 0;
 
     // GUI
     /**
@@ -178,7 +177,7 @@ public class Client extends Stream
         }
 
         InetAddress serverIpAddr = InetAddress.getByName(serverHost);
-        // Establish a TCP connection with the server
+        // Establish a TCP connection with the server 
         setRtspSocket(new Socket(serverIpAddr, rtspServerPort));
 
         // Set input and output stream filters:
@@ -311,6 +310,8 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            // TODO
+
             if (isInitState())
             {
                 // Init non-blocking RTP socket that will be used to receive
@@ -319,11 +320,10 @@ public class Client extends Stream
                 {
                     sendRtspRequest("SETUP");
                     // construct a new DatagramSocket to receive RTP packets
-                    // from the server, on port RTP_RCV_PORT
                     setRtpSocket(new DatagramSocket(rtpReceivePort));
 
                     // set TimeOut value of the socket to 5msec.
-                    getRtpSocket().setSoTimeout(3000);
+                    setRtpSocketTimeout(300);
 
                 }
                 catch (IOException ioe)
@@ -342,9 +342,9 @@ public class Client extends Stream
                     setReadyState();
                 }
             }// else if state != INIT then do nothing
-
         }
     }
+
 
     /**
      * Handler for Play Button
@@ -358,6 +358,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            // TODO
             if (isReadyState())
             {
                 // Send PLAY message to the server
@@ -391,6 +392,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            // TODO
             if (isPlayState())
             {
                 // Send PAUSE message to the server
@@ -412,6 +414,7 @@ public class Client extends Stream
         }
     }
 
+
     /**
      * Handler for Teardown Button
      */
@@ -424,6 +427,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            // TODO: Teardown request!!
             sendRtspRequest("TEARDOWN");
 
             // Wait for the response
@@ -463,22 +467,20 @@ public class Client extends Stream
             receivePacket = getDgPacket();
             try
             {
-                //TODO this is currently the bug
                 getRtpSocket().receive(receivePacket);
                 //create an RTPpacket object from the Datagram packet.
                 RTPpacket rtpPacket = new RTPpacket(receivePacket.getData(),
                         receivePacket.getLength());
-                rtpPacket.printHeader();
 
                 // Get the payload bitstream from the RTPpacket object
-                int payload_length = rtpPacket.getPayload_Length();
+                int payload_length = rtpPacket.getPayloadLength();
                 byte[] payload = new byte[payload_length];
-
                 rtpPacket.getPayload(payload);
 
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image = toolkit.createImage(payload, 0, payload_length);
+                Image image =
+                        toolkit.createImage(payload, 0, payload_length);
 
                 // Display the image as an ImageIcon object
                 icon = new ImageIcon(image);
@@ -486,15 +488,15 @@ public class Client extends Stream
             }
             catch (InterruptedIOException iioe)
             {
-                System.out.println("Nothing to read");
-                //iioe.printStackTrace();
-                //System.exit(4);
+                //System.out.println("Nothing to read");
             }
             catch (IOException ioe)
             {
-                System.out.println("IOException caught: " + ioe.getMessage());
+                System.out
+                        .println("IOException caught: " + ioe.getMessage());
             }
         }
+
     }
 
     /**
@@ -521,9 +523,12 @@ public class Client extends Stream
                 //TODO turn on System.out.println("S: " + SeqNumLine);
 
                 String SessionLine = scanIn.nextLine();
-                //TODO turn on System.out.println("S: " + SessionLine + CRLF);
+                //TODO turn on System.out.println("S: " + SessionLine +
+                // CRLF);
 
-                // If state == State.INIT get the Session Id from SessionLine
+
+                // If state == State.INIT get the Session Id from
+                // SessionLine
                 tokens = new StringTokenizer(SessionLine);
                 tokens.nextToken(); // Skip over the Session:
                 setRtspID(Integer.parseInt(tokens.nextToken()));
@@ -576,7 +581,8 @@ public class Client extends Stream
             }
             else
             {
-                lineThree.append("Session: ").append(getRtspID()).append(CRLF);
+                lineThree.append("Session: ").append(getRtspID())
+                        .append(CRLF);
             }
 
             scanOut.write(lineOne + CRLF);
@@ -597,3 +603,5 @@ public class Client extends Stream
         }
     }
 }
+
+

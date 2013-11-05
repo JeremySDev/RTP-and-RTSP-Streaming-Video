@@ -1,15 +1,8 @@
-package edu.wcu.RTPandRTSPStreamingVideo;
+package edu.wcu.RTPandRTSPStreamingVideo;//class RTPpacket
 
-/**
- * RTPpacket handles the creation and use of RTP packets
- *
- * @author Jeremy Stilwell
- * @author Alisha Hayman
- * @version 10/26/13.
- */
-//class RTPpacket
 public class RTPpacket
 {
+
     //size of the RTP header:
     private static int HEADER_SIZE = 12;
 
@@ -28,7 +21,7 @@ public class RTPpacket
     public byte[] header;
 
     //size of the RTP payload
-    public int payload_size;
+    public int payloadSize;
 
     //Bitstream of the RTP payload
     public byte[] payload;
@@ -47,6 +40,7 @@ public class RTPpacket
         Marker = 0;
         Ssrc = 0;
     }
+
 
     /**
      * Construct an  RTPpacket object from header fields and payload bitstream.
@@ -85,20 +79,11 @@ public class RTPpacket
         header[9] = (byte) ((Ssrc >> 16) & 0xFF);
         header[10] = (byte) ((Ssrc >> 8) & 0xFF);
         header[11] = (byte) (Ssrc & 0xFF);
-        /*for (int i = 0; i < 4; i++)
-        {
-            header[7 - i] = (byte) (TimeStamp >> (8 * i));
-        }
 
-        for (int i = 0; i < 4; i++)
-        {
-            header[11 - i] = (byte) (Ssrc >> (8 * i));
-        }*/
-
-        payload_size = data_length;
+        payloadSize = data_length;
         payload = new byte[data_length];
 
-        for (int i = 0; i < payload_size; i++)
+        for (int i = 0; i < payloadSize; i++)
         {
             payload[i] = data[i];
 
@@ -108,15 +93,15 @@ public class RTPpacket
     /**
      * Constructor of an RTPpacket object from the packet bitsream
      *
-     * @param packet a byte array of packet data
-     * @param packet_size the size of the byte array
+     * @param packet     a byte array of packet data
+     * @param packetSize the size of the byte array
      */
-    public RTPpacket(byte[] packet, int packet_size)
+    public RTPpacket(byte[] packet, int packetSize)
     {
         //fill default fields:
         this();
 
-        if (packet_size >= HEADER_SIZE)
+        if (packetSize >= HEADER_SIZE)
         {
             header = new byte[HEADER_SIZE];
 
@@ -126,11 +111,11 @@ public class RTPpacket
                 header[i] = packet[i];
             }
 
-            payload_size = packet_size - HEADER_SIZE;
-            payload = new byte[payload_size];
+            payloadSize = packetSize - HEADER_SIZE;
+            payload = new byte[payloadSize];
 
             /* copying over the payload */
-            for (int i = HEADER_SIZE; i < packet_size; i++)
+            for (int i = HEADER_SIZE; i < packetSize; i++)
             {
                 payload[i - HEADER_SIZE] = packet[i];
             }
@@ -144,33 +129,26 @@ public class RTPpacket
                     65536 * unsignedInt(header[5]) +
                     16777216 * unsignedInt(header[4]);
         }
-
-        //fill changing header fields:
-
-        //build the header bitstream:
-
-        //fill the RTP header and payload
     }
-
 
     //--------------------------
     //getPayload: return the payload bitstream of the RTPpacket and its size
     //--------------------------
     public int getPayload(byte[] data)
     {
-        for (int i = 0; i < payload_size; i++)
+        for (int i = 0; i < payloadSize; i++)
         {
             data[i] = payload[i];
         }
-        return (payload_size);
+        return (payloadSize);
     }
 
     //--------------------------
-    //getPayload_Length: return the length of the payload
+    //getPayloadLength: return the length of the payload
     //--------------------------
-    public int getPayload_Length()
+    public int getPayloadLength()
     {
-        return (payload_size);
+        return (payloadSize);
     }
 
     //--------------------------
@@ -178,7 +156,7 @@ public class RTPpacket
     //--------------------------
     public int getLength()
     {
-        return (payload_size + HEADER_SIZE);
+        return (payloadSize + HEADER_SIZE);
     }
 
     //--------------------------
@@ -191,12 +169,12 @@ public class RTPpacket
         {
             packet[i] = header[i];
         }
-        for (int i = HEADER_SIZE; i < payload_size; i++)
+        for (int i = HEADER_SIZE; i < payloadSize; i++)
         {
             packet[i] = payload[i];
         }
         //return total size of the packet
-        return (payload_size + HEADER_SIZE);
+        return (payloadSize + HEADER_SIZE);
     }
 
     //--------------------------
