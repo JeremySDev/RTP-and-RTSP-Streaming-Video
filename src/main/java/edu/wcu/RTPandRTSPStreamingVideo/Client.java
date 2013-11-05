@@ -321,7 +321,6 @@ public class Client extends Stream
 
                     // set TimeOut value of the socket to 5msec.
                     setRtpSocketTimeout(300);
-
                 }
                 catch (IOException ioe)
                 {
