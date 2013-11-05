@@ -52,6 +52,8 @@ public class VideoStream implements VideoInterface
         }
         catch (NumberFormatException nfe)
         {
+            fileInputStream.close();
+            System.out.println("Your video has ended");
         }
 
         return (fileInputStream.read(frame, 0, length));

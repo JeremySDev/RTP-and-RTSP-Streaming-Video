@@ -309,8 +309,7 @@ public class Server extends Stream
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
                                 imageNum, (imageNum * FRAME_PERIOD),
                                 getBuffer(), imageLength);
-                        //#######################our
-                        // code###############################
+                        //#######################our code#######################
                         rtpPacket.printHeader();
                         System.out.println("payload_length: " +
                                 rtpPacket.getPayloadLength());
@@ -323,6 +322,7 @@ public class Server extends Stream
                          */
                         byte[] packetBits = new byte[packetLength];
                         rtpPacket.getPacket(packetBits);
+
 
                         /* 
                          * Send the packet as a DatagramPacket over the UDP

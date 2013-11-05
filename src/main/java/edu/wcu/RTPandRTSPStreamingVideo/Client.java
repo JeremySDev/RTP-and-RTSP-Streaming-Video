@@ -471,10 +471,10 @@ public class Client extends Stream
                 byte[] payload = new byte[payload_length];
                 rtpPacket.getPayload(payload);
 
+
                 //#######################our code###############################
                 rtpPacket.printHeader();
                 System.out.println("payload_length: " + payload_length);
-
 
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -483,6 +483,7 @@ public class Client extends Stream
                 // Display the image as an ImageIcon object
                 icon = new ImageIcon(image);
                 iconLabel.setIcon(icon);
+                System.exit(42);
             }
             catch (InterruptedIOException iioe)
             {
