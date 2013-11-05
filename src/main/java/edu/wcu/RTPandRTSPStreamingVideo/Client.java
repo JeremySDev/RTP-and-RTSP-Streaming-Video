@@ -128,7 +128,6 @@ public class Client extends Stream
      */
     public final static int RTSP_PORT = 9999;
 
-
     /**
      * constructor.
      *
@@ -297,7 +296,6 @@ public class Client extends Stream
         client.setInitState();
     }
 
-
     /**
      * Handler for the 'setup' button.
      */
@@ -311,7 +309,6 @@ public class Client extends Stream
         public void actionPerformed(ActionEvent e)
         {
             // TODO
-
             if (isInitState())
             {
                 // Init non-blocking RTP socket that will be used to receive
@@ -344,7 +341,6 @@ public class Client extends Stream
             }// else if state != INIT then do nothing
         }
     }
-
 
     /**
      * Handler for Play Button
@@ -414,7 +410,6 @@ public class Client extends Stream
         }
     }
 
-
     /**
      * Handler for Teardown Button
      */
@@ -448,7 +443,6 @@ public class Client extends Stream
             }
         }
     }
-
 
     /**
      * Handler for the Timer. Gets RTP packets and displays them in the UI.
@@ -543,7 +537,6 @@ public class Client extends Stream
         }
         return (reply_code);
     }
-
 
     /**
      * Write a request to the RTSP socket.
