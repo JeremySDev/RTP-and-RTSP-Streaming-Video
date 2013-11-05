@@ -33,7 +33,6 @@ public class VideoStream implements VideoInterface
      * @return int
      * @throws IOException
      */
-    @Override
     public int getNextFrame(byte[] frame) throws IOException
     {
         int length = 0;

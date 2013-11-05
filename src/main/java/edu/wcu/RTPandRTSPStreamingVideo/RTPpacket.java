@@ -58,19 +58,22 @@ public class RTPpacket
         this();
 
         //fill changing header fields:
+        PayloadType = pType;
         SequenceNumber = framenb;
         TimeStamp = time;
-        PayloadType = pType;
 
         //build the header bitstream:
         header = new byte[HEADER_SIZE];
 
         //fill the RTP header and payload
-        header[0] = (byte) (Version << 6 | Padding << 5 | Extension << 4 | CC);
-        header[1] = (byte) (Marker << 7 | PayloadType);
+        //header[0] = (byte) (Version << 6 | Padding << 5 | Extension << 4 |
+        // CC);
+        header[0] =
+                (byte) (0 | Version << 6 | Padding << 5 | Extension << 4 | CC);
+        header[1] = (byte) (0 | Marker << 7 | PayloadType);
 
         header[2] = (byte) (SequenceNumber >> 8);
-        header[3] = (byte) (SequenceNumber);
+        header[3] = (byte) (SequenceNumber & 0xFF);
         header[4] = (byte) (TimeStamp >> 24);
         header[5] = (byte) ((TimeStamp >> 16) & 0xFF);
         header[6] = (byte) ((TimeStamp >> 8) & 0xFF);
