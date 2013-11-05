@@ -304,6 +304,7 @@ public class Server extends Stream
                      */
                     imageLength = video.getNextFrame(getBuffer());
 
+
                     // Build an RTPpacket object containing the frame
                     if (imageLength > 0)
                     {

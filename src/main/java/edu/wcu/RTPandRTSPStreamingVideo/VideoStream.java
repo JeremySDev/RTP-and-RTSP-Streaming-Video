@@ -36,16 +36,23 @@ public class VideoStream implements VideoInterface
     @Override
     public int getNextFrame(byte[] frame) throws IOException
     {
-        int length;
-        String length_string;
-        byte[] frame_length = new byte[5];
+        int length = 0;
+        String lengthString;
+        byte[] frameLength = new byte[5];
 
-        // read current frame_length
-        fileInputStream.read(frame_length, 0, 5);
+        // read current frameLength
+        fileInputStream.read(frameLength, 0, 5);
 
-        // transform frame_length to integer
-        length_string = new String(frame_length);
-        length = Integer.parseInt(length_string);
+        // transform frameLength to integer
+        lengthString = new String(frameLength);
+
+        try
+        {
+            length = Integer.parseInt(lengthString);
+        }
+        catch (NumberFormatException nfe)
+        {
+        }
 
         return (fileInputStream.read(frame, 0, length));
     }

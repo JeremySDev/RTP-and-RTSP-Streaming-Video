@@ -77,8 +77,15 @@ public class RTPpacket
 
         header[2] = (byte) (SequenceNumber >> 8);
         header[3] = (byte) (SequenceNumber);
-
-        for (int i = 0; i < 4; i++)
+        header[4] = (byte) (TimeStamp >> 24);
+        header[5] = (byte) ((TimeStamp >> 16) & 0xFF);
+        header[6] = (byte) ((TimeStamp >> 8) & 0xFF);
+        header[7] = (byte) (TimeStamp & 0xFF);
+        header[8] = (byte) (Ssrc >> 24);
+        header[9] = (byte) ((Ssrc >> 16) & 0xFF);
+        header[10] = (byte) ((Ssrc >> 8) & 0xFF);
+        header[11] = (byte) (Ssrc & 0xFF);
+        /*for (int i = 0; i < 4; i++)
         {
             header[7 - i] = (byte) (TimeStamp >> (8 * i));
         }
@@ -86,7 +93,7 @@ public class RTPpacket
         for (int i = 0; i < 4; i++)
         {
             header[11 - i] = (byte) (Ssrc >> (8 * i));
-        }
+        }*/
 
         payload_size = data_length;
         payload = new byte[data_length];
