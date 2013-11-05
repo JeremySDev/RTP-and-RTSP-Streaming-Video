@@ -473,8 +473,6 @@ public class Client extends Stream
                 // Get the payload bitstream from the RTPpacket object
                 int payload_length = rtpPacket.getPayload_Length();
                 byte[] payload = new byte[payload_length];
-                System.out.println("num: " + rtpPacket.getPacket(payload));
-
 
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
