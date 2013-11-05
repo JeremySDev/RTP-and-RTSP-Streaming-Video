@@ -112,8 +112,7 @@ public class Server extends Stream
      * @throws IOException           thrown if an error occurs creating the
      *                               socket.
      */
-    public Server(String portNum) throws NumberFormatException,
-            IOException
+    public Server(String portNum) throws NumberFormatException, IOException
     {
         createUI();
         int rtspPort = 0;
@@ -308,11 +307,13 @@ public class Server extends Stream
                     if (imageLength > 0)
                     {
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
-                                imageNum,
-                                (imageNum *
-                                        FRAME_PERIOD),
-                                getBuffer(),
-                                imageLength);
+                                imageNum, (imageNum * FRAME_PERIOD),
+                                getBuffer(), imageLength);
+                        //#######################our
+                        // code###############################
+                        rtpPacket.printHeader();
+                        System.out.println("payload_length: " +
+                                rtpPacket.getPayloadLength());
 
                         // Get to total length of the full RTP packet to send
                         int packetLength = rtpPacket.getLength();
@@ -322,6 +323,7 @@ public class Server extends Stream
                          */
                         byte[] packetBits = new byte[packetLength];
                         rtpPacket.getPacket(packetBits);
+
                         /* 
                          * Send the packet as a DatagramPacket over the UDP
                          * socket.

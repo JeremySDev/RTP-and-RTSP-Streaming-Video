@@ -471,10 +471,14 @@ public class Client extends Stream
                 byte[] payload = new byte[payload_length];
                 rtpPacket.getPayload(payload);
 
+                //#######################our code###############################
+                rtpPacket.printHeader();
+                System.out.println("payload_length: " + payload_length);
+
+
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
-                Image image =
-                        toolkit.createImage(payload, 0, payload_length);
+                Image image = toolkit.createImage(payload, 0, payload_length);
 
                 // Display the image as an ImageIcon object
                 icon = new ImageIcon(image);
@@ -486,8 +490,7 @@ public class Client extends Stream
             }
             catch (IOException ioe)
             {
-                System.out
-                        .println("IOException caught: " + ioe.getMessage());
+                System.out.println("IOException caught: " + ioe.getMessage());
             }
         }
 
