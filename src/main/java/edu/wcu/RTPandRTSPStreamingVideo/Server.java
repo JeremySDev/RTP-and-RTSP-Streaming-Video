@@ -329,8 +329,6 @@ public class Server extends Stream
                                 ClientIPAddr, rtpDestPort);
 
                         rtpPacket.printHeader();
-                        System.out.println(
-                                "senddp.getLength(): " + senddp.getLength());
                         getRtpSocket().send(senddp);
 
                         // update UI
