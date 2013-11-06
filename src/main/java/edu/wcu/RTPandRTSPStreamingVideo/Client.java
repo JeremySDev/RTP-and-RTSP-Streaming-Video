@@ -305,6 +305,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            incrementRtspSeqNum();
             //Check if the state is INIT
             if (isInitState())
             {
@@ -355,6 +356,7 @@ public class Client extends Stream
             //check if the state is equal to ready
             if (isReadyState())
             {
+                incrementRtspSeqNum();
                 // Send PLAY message to the server
                 sendRtspRequest("PLAY");
 
@@ -386,6 +388,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            incrementRtspSeqNum();
             //check if state equals play
             if (isPlayState())
             {
@@ -420,6 +423,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
+            incrementRtspSeqNum();
             //Teardown request
             sendRtspRequest("TEARDOWN");
 
@@ -532,6 +536,7 @@ public class Client extends Stream
         }
         return (reply_code);
     }
+
 
     /**
      * Write a request to the RTSP socket.
