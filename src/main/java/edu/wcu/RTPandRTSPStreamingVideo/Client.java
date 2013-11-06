@@ -476,7 +476,6 @@ public class Client extends Stream
                 // Display the image as an ImageIcon object
                 icon = new ImageIcon(image);
                 iconLabel.setIcon(icon);
-                //System.exit(42);
             }
             catch (InterruptedIOException iioe)
             {
