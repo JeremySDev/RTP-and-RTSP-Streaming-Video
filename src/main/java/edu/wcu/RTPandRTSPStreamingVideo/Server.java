@@ -307,10 +307,6 @@ public class Server extends Stream
                         RTPpacket rtpPacket = new RTPpacket(MJPEG_TYPE,
                                 imageNum, (imageNum * FRAME_PERIOD),
                                 getBuffer(), imageLength);
-                        //#######################our code#######################
-                        rtpPacket.printHeader();
-                        System.out.println("payload_length: " +
-                                rtpPacket.getPayloadLength());
 
                         // Get to total length of the full RTP packet to send
                         int packetLength = rtpPacket.getLength();
