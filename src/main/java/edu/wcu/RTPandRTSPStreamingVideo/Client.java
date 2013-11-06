@@ -1,7 +1,5 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-import com.sun.xml.internal.bind.v2.*;
-
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -499,7 +497,7 @@ public class Client extends Stream
 
     /**
      * ParseServerResponse - handles getting and processing the server's
-     *                       response to a sendRtspRequest method call
+     * response to a sendRtspRequest method call
      */
     private int parseServerResponse()
     {

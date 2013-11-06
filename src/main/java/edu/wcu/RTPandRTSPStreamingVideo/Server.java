@@ -451,7 +451,6 @@ public class Server extends Stream
      */
     private void sendRtspResponse() throws IOException
     {
-        // TODO
         //Send client reply code response
         scanOut.write(responseOne.toString() + CRLF);
 
