@@ -472,7 +472,7 @@ public class Client extends Stream
                 int payload_length = rtpPacket.getPayloadLength();
                 byte[] payload = new byte[payload_length];
                 rtpPacket.getPayload(payload);
-
+                
                 // Get an Image object from the payload bitstream
                 Toolkit toolkit = Toolkit.getDefaultToolkit();
                 Image image = toolkit.createImage(payload, 0, payload_length);
