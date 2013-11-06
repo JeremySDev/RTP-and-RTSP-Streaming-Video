@@ -22,13 +22,13 @@ public class RTPpacket
     private int ssrc;
 
     //Bitstream of the RTP header
-    public byte[] header;
+    private byte[] header;
 
     //size of the RTP payload
-    public int payloadSize;
+    private int payloadSize;
 
     //Bitstream of the RTP payload
-    public byte[] payload;
+    private byte[] payload;
 
     /**
      * Default RTPpacket Constructor that sets up certain fields to their
@@ -70,10 +70,8 @@ public class RTPpacket
         header = new byte[HEADER_SIZE];
 
         //fill the RTP header and payload
-        header[0] = (byte) (0 | version << 6 | padding << 5 | extension << 4 |
-                cc);
-        header[1] = (byte) (0 | marker << 7 | payloadType);
-
+        header[0] = (byte) (version << 6 | padding << 5 | extension << 4 | cc);
+        header[1] = (byte) (marker << 7 | payloadType);
         header[2] = (byte) (sequenceNumber >> 8);
         header[3] = (byte) (sequenceNumber & 0xFF);
         header[4] = (byte) (timeStamp >> 24);
