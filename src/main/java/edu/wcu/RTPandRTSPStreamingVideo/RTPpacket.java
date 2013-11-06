@@ -32,7 +32,7 @@ public class RTPpacket
      */
     private RTPpacket()
     {
-        //fill by default header fields:
+        //fill the default header fields:
         Version = 2;
         Padding = 0;
         Extension = 0;
@@ -43,7 +43,7 @@ public class RTPpacket
 
 
     /**
-     * Construct an  RTPpacket object from header fields and payload bitstream.
+     * Construct an  RTPpacket object from header fields and a payload bitstream
      *
      * @param pType       the payload type
      * @param framenb     the frame number
@@ -66,10 +66,8 @@ public class RTPpacket
         header = new byte[HEADER_SIZE];
 
         //fill the RTP header and payload
-        //header[0] = (byte) (Version << 6 | Padding << 5 | Extension << 4 |
-        // CC);
-        header[0] =
-                (byte) (0 | Version << 6 | Padding << 5 | Extension << 4 | CC);
+        header[0] = (byte) (0 | Version << 6 | Padding << 5 | Extension << 4 |
+                CC);
         header[1] = (byte) (0 | Marker << 7 | PayloadType);
 
         header[2] = (byte) (SequenceNumber >> 8);
@@ -86,11 +84,8 @@ public class RTPpacket
         payloadSize = data_length;
         payload = new byte[data_length];
 
-        for (int i = 0; i < payloadSize; i++)
-        {
-            payload[i] = data[i];
-
-        }
+        //copy over data to payload
+        System.arraycopy(data, 0, payload, 0, payloadSize);
     }
 
     /**
@@ -101,23 +96,21 @@ public class RTPpacket
      */
     public RTPpacket(byte[] packet, int packetSize)
     {
-        //fill default fields:
+        // fill default fields:
         this();
 
         if (packetSize >= HEADER_SIZE)
         {
+            // create a header array
             header = new byte[HEADER_SIZE];
 
-            /* copying over the header data */
-            for (int i = 0; i < HEADER_SIZE; i++)
-            {
-                header[i] = packet[i];
-            }
+            // copying over the header data
+            System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
 
             payloadSize = packetSize - HEADER_SIZE;
             payload = new byte[payloadSize];
 
-            /* copying over the payload */
+            // copying over the payload
             for (int i = HEADER_SIZE; i < packetSize; i++)
             {
                 payload[i - HEADER_SIZE] = packet[i];
