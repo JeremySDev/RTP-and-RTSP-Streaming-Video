@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
+ * Video Stream this class handles reading the file.
+ *
  * @author Jeremy Stilwell
  * @author Alisha Hayman
  * @version 10/26/13.
@@ -35,8 +37,11 @@ public class VideoStream implements VideoInterface
      */
     public int getNextFrame(byte[] frame) throws IOException
     {
+        // integer representation of the length of the frame
         int length = 0;
+        // String representation of the length of the frame
         String lengthString;
+
         byte[] frameLength = new byte[HEADER];
 
         // read current frameLength

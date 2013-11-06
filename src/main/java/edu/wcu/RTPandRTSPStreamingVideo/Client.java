@@ -1,7 +1,6 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
-import edu.wcu.RTPandRTSPStreamingVideo.RTPpacket;
-import edu.wcu.RTPandRTSPStreamingVideo.Stream;
+import com.sun.xml.internal.bind.v2.*;
 
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
@@ -44,7 +43,7 @@ import javax.swing.Timer;
  */
 public class Client extends Stream
 {
-
+    //number of times that sendRtspRequest
     private int numberTimesRun = 0;
 
     // GUI
@@ -497,7 +496,8 @@ public class Client extends Stream
     }
 
     /**
-     * Parse Server Response.
+     * ParseServerResponse - handles getting and processing the server's
+     *                       response to a sendRtspRequest method call
      */
     private int parseServerResponse()
     {
@@ -507,7 +507,7 @@ public class Client extends Stream
         {
             // Parse status line and extract the reply_code:
             String StatusLine = scanIn.nextLine();
-            //TODO turn on System.out.println("S: " + StatusLine);
+            System.out.println("S: " + StatusLine);
 
             StringTokenizer tokens = new StringTokenizer(StatusLine);
             tokens.nextToken(); //skip over the RTSP version number
@@ -517,11 +517,10 @@ public class Client extends Stream
             if (reply_code == Stream.OKAY)
             {
                 String SeqNumLine = scanIn.nextLine();
-                //TODO turn on System.out.println("S: " + SeqNumLine);
+                System.out.println("S: " + SeqNumLine);
 
                 String SessionLine = scanIn.nextLine();
-                //TODO turn on System.out.println("S: " + SessionLine +
-                // CRLF);
+                System.out.println("S: " + SessionLine + CRLF);
 
 
                 // If state == State.INIT get the Session Id from
@@ -563,33 +562,42 @@ public class Client extends Stream
              * Otherwise write the Session line from the rtspID field
              */
 
-            // SETUP movie.Mjpeg RTSP/1.0
-            String lineOne =
-                    requestType + " " + getVideoFileName() + " RTSP/1.0";
+            // String to hold request type, video file name, and RTSP version.
+            // i.e. SETUP movie.Mjpeg RTSP/1.0
+            String lineOne = requestType + " " + getVideoFileName() +
+                    " RTSP/1.0";
+
+            // String to hold CSeq and CSeq number.
             String lineTwo = "CSeq: " + numberTimesRun;
+
+            // StringBuilder to hold the either the session number or
+            // Transport: RTP/UDP; client_port= the RTP port number
             StringBuilder lineThree = new StringBuilder();
 
+            //if request type is SETUP lineThree will be:
             if (requestType.equals("SETUP"))
             {
-                // Transport: RTP/UDP; client_port= 5000
+                // Transport: RTP/UDP; client_port= the RTP port number
                 lineThree.append("Transport: RTP/UDP; client_port= ")
                         .append(rtpReceivePort).append(CRLF);
             }
             else
             {
-                lineThree.append("Session: ").append(getRtspID())
-                        .append(CRLF);
+                //else it will be the session number
+                lineThree.append("Session: ").append(getRtspID()).append(CRLF);
             }
 
+            //write to the server all of the strings that were just create
             scanOut.write(lineOne + CRLF);
-            //TODO turn on System.out.println("C: " + lineOne);
+            System.out.println("C: " + lineOne);
 
             scanOut.write(lineTwo + CRLF);
-            //TODO turn on System.out.println("C: " + lineTwo);
+            System.out.println("C: " + lineTwo);
 
             scanOut.write(lineThree.toString());
-            //TODO turn on System.out.println("C: " + lineThree.toString());
+            System.out.println("C: " + lineThree.toString());
 
+            //flush scanOut
             scanOut.flush();
         }
         catch (IOException ioe)
