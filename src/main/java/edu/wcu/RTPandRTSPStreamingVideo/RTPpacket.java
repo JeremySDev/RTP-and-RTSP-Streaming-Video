@@ -1,5 +1,9 @@
-package edu.wcu.RTPandRTSPStreamingVideo;//class RTPpacket
+package edu.wcu.RTPandRTSPStreamingVideo;
 
+/**
+ * RTPpacket this class handles creating and a RTPpacket, RTP header, and
+ * payload
+ */
 public class RTPpacket
 {
 

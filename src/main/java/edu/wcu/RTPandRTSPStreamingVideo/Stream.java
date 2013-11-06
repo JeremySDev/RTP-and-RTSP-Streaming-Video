@@ -124,7 +124,6 @@ public class Stream
 
     /**
      * Get the storage buffer.
-     *
      */
     public byte[] getBuffer()
     {
@@ -258,7 +257,7 @@ public class Stream
     /**
      * Create the timer and set initial values.
      *
-     * @param period  timer interval.
+     * @param period   timer interval.
      * @param listener a listener to attach to the timer.
      */
     public void initTimer(int period, ActionListener listener)
