@@ -516,7 +516,6 @@ public class Client extends Stream
                 String SessionLine = scanIn.nextLine();
                 System.out.println("S: " + SessionLine + CRLF);
 
-
                 // If state == State.INIT get the Session Id from
                 // SessionLine
                 tokens = new StringTokenizer(SessionLine);
