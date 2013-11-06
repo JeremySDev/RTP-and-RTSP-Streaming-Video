@@ -3,3 +3,7 @@ java -cp RTP-and-RTSP-Streaming-Video-1.0-SNAPSHOT.jar edu.wcu.RTPandRTSPStreami
 java -cp RTP-and-RTSP-Streaming-Video-1.0-SNAPSHOT.jar edu.wcu.RTPandRTSPStreamingVideo.Client localhost <RTP port> <RTSP port> <location of the file>
 
 Also note project does not actually display video everything else seems to work 
+
+check out array copies
+check out constructors
+get rid of default constructor

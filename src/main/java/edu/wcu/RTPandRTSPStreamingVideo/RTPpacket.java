@@ -88,10 +88,6 @@ public class RTPpacket
 
         //copy over data to payload
         System.arraycopy(data, 0, payload, 0, payloadSize);
-        //for (int i = 0; i < payloadSize; i++)
-        //{
-        //    payload[i] = data[i];
-        //}
     }
 
     /**
@@ -112,11 +108,6 @@ public class RTPpacket
 
             // copying over the header data
             System.arraycopy(packet, 0, header, 0, HEADER_SIZE);
-            //for (int i = 0; i < HEADER_SIZE; i++)
-            //{
-            //    header[i] = packet[i];
-            //}
-
 
             payloadSize = packetSize - HEADER_SIZE;
             payload = new byte[payloadSize];
@@ -181,17 +172,7 @@ public class RTPpacket
     {
         //construct the packet = header + payload
         System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
-        System.arraycopy(payload, HEADER_SIZE, packet, HEADER_SIZE,
-                payloadSize - HEADER_SIZE);
-        //construct the packet = header + payload
-        /*for (int i = 0; i < HEADER_SIZE; i++)
-        {
-            packet[i] = header[i];
-        }
-        for (int i = HEADER_SIZE; i < payloadSize; i++)
-        {
-            packet[i] = payload[i];
-        }*/
+        System.arraycopy(payload, 0, packet, HEADER_SIZE, payloadSize);
         //return total size of the packet
         return (payloadSize + HEADER_SIZE);
     }
