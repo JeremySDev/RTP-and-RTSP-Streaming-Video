@@ -127,55 +127,58 @@ public class RTPpacket
         }
     }
 
-    //--------------------------
-    //getPayload: return the payload bitstream of the RTPpacket and its size
-    //--------------------------
+    /**
+     * getPayload creates a copy of payload.
+     *
+     * @param data an array of bytes that becomes a copy of payload.
+     * @return payloadSize the length of the payload.
+     */
     public int getPayload(byte[] data)
     {
-        for (int i = 0; i < payloadSize; i++)
-        {
-            data[i] = payload[i];
-        }
+        System.arraycopy(payload, 0, data, 0, payloadSize);
         return (payloadSize);
     }
 
-    //--------------------------
-    //getPayloadLength: return the length of the payload
-    //--------------------------
+    /**
+     * getPayloadLength returns the length of the payload.
+     *
+     * @return the size of the payload.
+     */
     public int getPayloadLength()
     {
         return (payloadSize);
     }
 
-    //--------------------------
-    //getLength: return the total length of the RTP packet
-    //--------------------------
+    /**
+     * getLength returns the payload length
+     *
+     * @return the length of the payload
+     */
     public int getLength()
     {
         return (payloadSize + HEADER_SIZE);
     }
 
-    //--------------------------
-    //getPacket: returns the packet bitstream and its length
-    //--------------------------
+    /**
+     * getPacket returns the length of the payload. Also copies over the header
+     * data and payload data to a packet.
+     *
+     * @param packet a byte array of packet data
+     * @return int returns the length of the payload.
+     */
     public int getPacket(byte[] packet)
     {
         //construct the packet = header + payload
-        for (int i = 0; i < HEADER_SIZE; i++)
-        {
-            packet[i] = header[i];
-        }
-        for (int i = HEADER_SIZE; i < payloadSize; i++)
-        {
-            packet[i] = payload[i];
-        }
+        System.arraycopy(header, 0, packet, 0, HEADER_SIZE);
+        System.arraycopy(payload, HEADER_SIZE, packet, HEADER_SIZE,
+                payloadSize - HEADER_SIZE);
         //return total size of the packet
         return (payloadSize + HEADER_SIZE);
     }
 
-    //--------------------------
-    //print headers without the SSRC
-    //--------------------------
+    /**
+     * printHeader prints out the header data.
+     */
     public void printHeader()
     {
         for (int i = 0; i < (HEADER_SIZE - 4); i++)
@@ -196,7 +199,12 @@ public class RTPpacket
         System.out.println();
     }
 
-    //return the unsigned value of 8-bit integer nb
+    /**
+     * unsignedInt return the unsigned value of 8-bit integer number.
+     *
+     * @param num the number to be "unsigned"
+     * @return an unsigned integer
+     */
     static int unsignedInt(int num)
     {
         if (num >= 0)
