@@ -123,9 +123,9 @@ public class RTPpacket
             sequenceNumber =
                     unsignedInt(header[3]) + 256 * unsignedInt(header[2]);
 
-            timeStamp = unsignedInt(header[7]) + 256 * unsignedInt(header[6]) +
-                    65536 * unsignedInt(header[5]) +
-                    16777216 * unsignedInt(header[4]);
+            timeStamp = unsignedInt(header[7]) + 256 * unsignedInt(header[6])
+                    + 65536 * unsignedInt(header[5])
+                    + 16777216 * unsignedInt(header[4]);
         }
     }
 
@@ -178,7 +178,7 @@ public class RTPpacket
     }
 
     /**
-     * printHeader prints out the header data.
+     * printHeader prints out the header data of the RTP packet.
      */
     public void printHeader()
     {

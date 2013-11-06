@@ -13,8 +13,8 @@ import java.io.IOException;
 public class VideoStream implements VideoInterface
 {
 
-    /* file input stream of the video file */
-    FileInputStream fileInputStream;
+    // file input stream of the video file
+    private FileInputStream fileInputStream;
 
     /**
      * Constructor for the VideoStream class.
@@ -28,7 +28,7 @@ public class VideoStream implements VideoInterface
     }
 
     /**
-     * getNextFrame
+     * getNextFrame - gets the next frame of video from the file.
      *
      * @param frame an array of bytes that will contain the actual frame upon
      *              method completion.
@@ -56,7 +56,6 @@ public class VideoStream implements VideoInterface
         }
         catch (NumberFormatException nfe)
         {
-            fileInputStream.close();
             System.out.println("Your video has ended");
         }
 

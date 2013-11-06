@@ -3,7 +3,6 @@ package edu.wcu.RTPandRTSPStreamingVideo;
 import java.net.UnknownHostException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.net.Socket;
 import java.net.InetAddress;
 import java.io.IOException;
@@ -30,7 +29,6 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
-import javax.swing.Timer;
 
 
 /**
@@ -125,13 +123,16 @@ public class Client extends Stream
      */
     public final static int RTSP_PORT = 9999;
 
+    //the time out of the RTP socket
+    public final static int RTP_TIMEOUT = 300;
+
     /**
      * constructor.
      *
-     * @param args Hostname running the RTP server
-     * @param args RTP receive port!
-     * @param args Server port!
-     * @param args Name of the video file to play
+     * @param args 0 Hostname running the RTP server
+     * @param args 1 RTP receive port!
+     * @param args 2 Server port!
+     * @param args 3 Name of the video file to play
      */
     public Client(String[] args) throws UnknownHostException, IOException
     {
@@ -320,7 +321,7 @@ public class Client extends Stream
                     setRtpSocket(new DatagramSocket(rtpReceivePort));
 
                     // set TimeOut value of the socket to 300msec.
-                    setRtpSocketTimeout(300);
+                    setRtpSocketTimeout(RTP_TIMEOUT);
                 }
                 catch (IOException ioe)
                 {
@@ -548,10 +549,6 @@ public class Client extends Stream
         numberTimesRun++;
         try
         {
-            // TODO
-            // Write the request line!
-            // Write the CSeq line:
-
             /*
              * Check if requestType is equal to "SETUP" and  write the
              * transport line advertising to the server the port used to
