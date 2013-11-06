@@ -307,18 +307,20 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO
+            //Check if the state is INIT
             if (isInitState())
             {
-                // Init non-blocking RTP socket that will be used to receive
+                // Create non-blocking RTP socket that will be used to receive
                 // data
                 try
                 {
+                    //send server the setup request
                     sendRtspRequest("SETUP");
+
                     // construct a new DatagramSocket to receive RTP packets
                     setRtpSocket(new DatagramSocket(rtpReceivePort));
 
-                    // set TimeOut value of the socket to 5msec.
+                    // set TimeOut value of the socket to 300msec.
                     setRtpSocketTimeout(300);
                 }
                 catch (IOException ioe)
@@ -352,7 +354,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO
+            //check if the state is equal to ready
             if (isReadyState())
             {
                 // Send PLAY message to the server
@@ -386,7 +388,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO
+            //check if state equals play
             if (isPlayState())
             {
                 // Send PAUSE message to the server
@@ -420,7 +422,7 @@ public class Client extends Stream
          */
         public void actionPerformed(ActionEvent e)
         {
-            // TODO: Teardown request!!
+            //Teardown request
             sendRtspRequest("TEARDOWN");
 
             // Wait for the response
