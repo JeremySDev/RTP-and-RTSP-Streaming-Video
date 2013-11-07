@@ -223,7 +223,7 @@ public class Stream
     }
 
     /**
-     * Change the timeout on the RTSP Socket.
+     * Change the timeout on the RTP Socket.
      *
      * @param time new timeout interval.
      * @throws SocketException if there is an error in the underlying

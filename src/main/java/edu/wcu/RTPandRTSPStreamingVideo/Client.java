@@ -41,7 +41,7 @@ import javax.swing.Timer;
  */
 public class Client extends Stream
 {
-    //number of times that sendRtspRequest
+    /** number of times that sendRtspRequest */
     private int numberTimesRun = 0;
 
     // GUI
@@ -548,10 +548,6 @@ public class Client extends Stream
         numberTimesRun++;
         try
         {
-            // TODO
-            // Write the request line!
-            // Write the CSeq line:
-
             /*
              * Check if requestType is equal to "SETUP" and  write the
              * transport line advertising to the server the port used to
