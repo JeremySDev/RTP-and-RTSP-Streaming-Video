@@ -11,11 +11,14 @@ package edu.wcu.RTPandRTSPStreamingVideo;
 public class RTPpacket
 {
 
-    /** size of the RTP header */
+    /**
+     * size of the RTP header
+     */
     private static int HEADER_SIZE = 12;
 
-    /** Fields that compose the RTP header */
-    // TODO:?
+    /**
+     * Fields that compose the RTP header
+     */
     private int version;
     private int padding;
     private int extension;
@@ -26,13 +29,19 @@ public class RTPpacket
     private int timeStamp;
     private int ssrc;
 
-    /** Bitstream of the RTP header */
+    /**
+     * Bitstream of the RTP header
+     */
     private byte[] header;
 
-    /** size of the RTP payload */
+    /**
+     * size of the RTP payload
+     */
     private int payloadSize;
 
-    /** Bitstream of the RTP payload */
+    /**
+     * Bitstream of the RTP payload
+     */
     private byte[] payload;
 
     /**
