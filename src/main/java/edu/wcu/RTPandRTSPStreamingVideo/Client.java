@@ -39,7 +39,7 @@ import javax.swing.ImageIcon;
  */
 public class Client extends Stream
 {
-    //number of times that sendRtspRequest
+    /** number of times that sendRtspRequest */
     private int numberTimesRun = 0;
 
     // GUI

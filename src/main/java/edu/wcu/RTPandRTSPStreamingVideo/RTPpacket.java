@@ -1,16 +1,21 @@
 package edu.wcu.RTPandRTSPStreamingVideo;
 
 /**
- * RTPpacket this class handles creating and a RTPpacket, RTP header, and
- * payload
+ * RTPpacket class handles creating and a RTPpacket, RTP header, and
+ * payload.
+ *
+ * @author Jeremy Stilwell
+ * @author Alisha Hayman
+ * @version 10/26/13.
  */
 public class RTPpacket
 {
 
-    //size of the RTP header:
+    /** size of the RTP header */
     private static int HEADER_SIZE = 12;
 
-    //Fields that compose the RTP header
+    /** Fields that compose the RTP header */
+    // TODO:?
     private int version;
     private int padding;
     private int extension;
@@ -21,13 +26,13 @@ public class RTPpacket
     private int timeStamp;
     private int ssrc;
 
-    //Bitstream of the RTP header
+    /** Bitstream of the RTP header */
     private byte[] header;
 
-    //size of the RTP payload
+    /** size of the RTP payload */
     private int payloadSize;
 
-    //Bitstream of the RTP payload
+    /** Bitstream of the RTP payload */
     private byte[] payload;
 
     /**
@@ -47,7 +52,7 @@ public class RTPpacket
 
 
     /**
-     * Construct an  RTPpacket object from header fields and a payload bitstream
+     * Construct an RTPpacket object from header fields and a payload bitstream
      *
      * @param pType       the payload type
      * @param framenb     the frame number
@@ -201,7 +206,7 @@ public class RTPpacket
     }
 
     /**
-     * unsignedInt return the unsigned value of 8-bit integer number.
+     * unsignedInt returns the unsigned value of 8-bit integer number.
      *
      * @param num the number to be "unsigned"
      * @return an unsigned integer
